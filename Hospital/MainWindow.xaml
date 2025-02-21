@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hospital"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Вход" Height="363" Width="310" Foreground="White" Background="White" BorderBrush="#FF424242" OpacityMask="#FF424242" Grid.IsSharedSizeScope="True" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-6">
+        <Button x:Name="LoInButton" Content="Войти" HorizontalAlignment="Center" Margin="0,277,0,0"  VerticalAlignment="Top" Height="50" Width="300" Click="Button_Click" Background="#FF424242" Foreground="White" FontSize="20"/>
+        <TextBox x:Name="LoginBox" HorizontalAlignment="Center" Margin="0,114,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="280" Height="25" GotFocus="LoginBox_GotFocus">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="Black" Opacity="0.5"/>
+            </TextBox.Foreground>
+        </TextBox>
+        <TextBox x:Name="PassBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Center" Width="280" Height="25" GotFocus="PassBox_GotFocus">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="Black" Opacity="0.5"/>
+            </TextBox.Foreground>
+        </TextBox>
+        <Label Content="Вход" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label Content="Нет аккаунта?" HorizontalAlignment="Left" Margin="15,210,0,0" VerticalAlignment="Top"/>
+        <Button Content="Зарегистрироваться" HorizontalAlignment="Center" Margin="0,214,0,0" VerticalAlignment="Top" Height="18" Width="100" BorderBrush="#FF707070" Background="#FF424242" Foreground="White" FontSize="10" Click="Button_Click_1"/>
 
     </Grid>
 </Window>
