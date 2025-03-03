@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hospital"
         mc:Ignorable="d"
-        Title="Регистратура" Height="363" Width="1032" Foreground="White" Background="White" BorderBrush="#FF424242" OpacityMask="#FF424242" Grid.IsSharedSizeScope="True" ResizeMode="NoResize">
+        Title="Регистратура" Height="382" Width="940" Foreground="White" Background="White" BorderBrush="#FF424242" OpacityMask="#FF424242" Grid.IsSharedSizeScope="True" ResizeMode="NoResize">
     <Grid Margin="0,0,0,-6">
-        <Button x:Name="LoInButton" Content="Зарегистрировать" HorizontalAlignment="Center" Margin="0,282,0,0"  VerticalAlignment="Top" Height="45" Width="272" Click="Button_Click" Background="#FF424242" Foreground="White" FontSize="22"/>
+        <Button x:Name="LoInButton" Content="Зарегистрировать" HorizontalAlignment="Left" Margin="319,282,0,0"  VerticalAlignment="Top" Height="45" Width="280" Click="Button_Click" Background="#FF424242" Foreground="White" FontSize="22"/>
         <TextBox x:Name="NameBox" HorizontalAlignment="Left" Margin="10,85,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="280" Height="25" GotFocus="NameBox_GotFocus">
             <TextBox.Foreground>
                 <SolidColorBrush Color="Black" Opacity="0.5"/>
@@ -78,8 +78,8 @@
         </TextBox>
         <Label Content="рождения" HorizontalAlignment="Left" Margin="448,127,0,0" VerticalAlignment="Top" Height="25"/>
         <Button Content="Присвоить идентичный код мед. карте" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Height="27" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242"/>
-        <Button Content="Заполнить договор не мед. обслуживание" HorizontalAlignment="Left" Margin="784,268,0,0" VerticalAlignment="Top" Height="27" Background="#FF424242" Foreground="White"/>
-        <Button Content="Заполнить согласие на обработку персональных данных" HorizontalAlignment="Left" Margin="705,300,0,0" VerticalAlignment="Top" Height="27" Background="#FF424242" Foreground="White"/>
+        <Button Content="Заполнить договор на мед. обслуживание" HorizontalAlignment="Left" Margin="664,268,0,0" VerticalAlignment="Top" Height="27" Background="#FF424242" Foreground="White" Width="247"/>
+        <Button Content="Заполнить согласие на обработку п. данных" HorizontalAlignment="Left" Margin="664,300,0,0" VerticalAlignment="Top" Height="27" Background="#FF424242" Foreground="White"/>
         <Button Content="Записать пациента на прием к врачу" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" Height="27" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242"/>
 
     </Grid>
