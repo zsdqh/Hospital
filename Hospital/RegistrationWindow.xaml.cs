@@ -28,18 +28,18 @@ namespace Hospital
         {
 
         }
-        private void LoginBox_GotFocus(object sender, RoutedEventArgs e)
+        private void WorkBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            LoginBox.Text = "";
+            WorkBox.Text = "";
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-            LoginBox.Foreground = brush;
+            WorkBox.Foreground = brush;
         }
 
-        private void PassBox_GotFocus(object sender, RoutedEventArgs e)
+        private void StrahBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            PassBox.Text = "";
+            StrahBox.Text = "";
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-            PassBox.Foreground = brush;
+            StrahBox.Foreground = brush;
 
         }
 
