@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище hospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="photo" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="second_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="father_name" Type="varchar" MaxLength="255" />
+          <Property Name="passport" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="birthday" Type="date" Nullable="false" />
+          <Property Name="sex" Type="int" Nullable="false" />
+          <Property Name="adress" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="specialization" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="post" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="healingevent">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="patient_id" />
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="patient_id" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="doctor_id" Type="int" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="result" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="recommendation" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="photo" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="second_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="father_name" Type="varchar" MaxLength="255" />
+          <Property Name="passport" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="birthday" Type="date" Nullable="false" />
+          <Property Name="sex" Type="int" Nullable="false" />
+          <Property Name="adress" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="card_number" Type="int" Nullable="false" />
+          <Property Name="card_date" Type="date" Nullable="false" />
+          <Property Name="last_visit" Type="datetime" Nullable="false" />
+          <Property Name="next_visit" Type="datetime" Nullable="false" />
+          <Property Name="policy_number" Type="int" Nullable="false" />
+          <Property Name="policy_end" Type="date" Nullable="false" />
+          <Property Name="diagnosis" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="history" Type="text" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="visit">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="patient_id" />
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="patient_id" Type="int" Nullable="false" />
+          <Property Name="doctor_id" Type="int" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="result" Type="text" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_healingevent_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="healingevent" Type="Self.healingevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="healingevent">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_healingevent_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="healingevent" Type="Self.healingevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="healingevent">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_visit_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="visit" Type="Self.visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="visit">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_visit_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="visit" Type="Self.visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="visit">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище hospitalModelContainer">
+          <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="healingevent" EntityType="Self.healingevent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="patient" EntityType="Self.patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="visit" EntityType="Self.visit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_healingevent_doctor" Association="Self.FK_healingevent_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="healingevent" EntitySet="healingevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_healingevent_patient" Association="Self.FK_healingevent_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="healingevent" EntitySet="healingevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visit_doctor" Association="Self.FK_visit_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="visit" EntitySet="visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visit_patient" Association="Self.FK_visit_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="visit" EntitySet="visit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="second_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="father_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="passport" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sex" Type="Int32" Nullable="false" />
+          <Property Name="adress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="specialization" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="post" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="healingevent" Relationship="Self.FK_healingevent_doctor" FromRole="doctor" ToRole="healingevent" />
+          <NavigationProperty Name="visit" Relationship="Self.FK_visit_doctor" FromRole="doctor" ToRole="visit" />
+        </EntityType>
+        <EntityType Name="healingevent">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="patient_id" />
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="patient_id" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="doctor_id" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="result" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recommendation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="Self.FK_healingevent_doctor" FromRole="healingevent" ToRole="doctor" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_healingevent_patient" FromRole="healingevent" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="second_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="father_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="passport" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sex" Type="Int32" Nullable="false" />
+          <Property Name="adress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="card_number" Type="Int32" Nullable="false" />
+          <Property Name="card_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="last_visit" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="next_visit" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="policy_number" Type="Int32" Nullable="false" />
+          <Property Name="policy_end" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="diagnosis" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="history" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="healingevent" Relationship="Self.FK_healingevent_patient" FromRole="patient" ToRole="healingevent" />
+          <NavigationProperty Name="visit" Relationship="Self.FK_visit_patient" FromRole="patient" ToRole="visit" />
+        </EntityType>
+        <EntityType Name="visit">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="patient_id" />
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="patient_id" Type="Int32" Nullable="false" />
+          <Property Name="doctor_id" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="Self.FK_visit_doctor" FromRole="visit" ToRole="doctor" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_visit_patient" FromRole="visit" ToRole="patient" />
+        </EntityType>
+        <Association Name="FK_healingevent_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="healingevent" Type="Self.healingevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="healingevent">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_visit_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="visit" Type="Self.visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="visit">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_healingevent_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="healingevent" Type="Self.healingevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="healingevent">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_visit_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="visit" Type="Self.visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="visit">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hospitalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="doctor" EntityType="Self.doctor" />
+          <EntitySet Name="healingevent" EntityType="Self.healingevent" />
+          <EntitySet Name="patient" EntityType="Self.patient" />
+          <EntitySet Name="visit" EntityType="Self.visit" />
+          <AssociationSet Name="FK_healingevent_doctor" Association="Self.FK_healingevent_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="healingevent" EntitySet="healingevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visit_doctor" Association="Self.FK_visit_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="visit" EntitySet="visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_healingevent_patient" Association="Self.FK_healingevent_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="healingevent" EntitySet="healingevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visit_patient" Association="Self.FK_visit_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="visit" EntitySet="visit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище hospitalModelContainer" CdmEntityContainer="hospitalEntities">
+          <EntitySetMapping Name="doctor">
+            <EntityTypeMapping TypeName="hospitalModel.doctor">
+              <MappingFragment StoreEntitySet="doctor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="second_name" ColumnName="second_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="passport" ColumnName="passport" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="specialization" ColumnName="specialization" />
+                <ScalarProperty Name="post" ColumnName="post" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="healingevent">
+            <EntityTypeMapping TypeName="hospitalModel.healingevent">
+              <MappingFragment StoreEntitySet="healingevent">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="recommendation" ColumnName="recommendation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient">
+            <EntityTypeMapping TypeName="hospitalModel.patient">
+              <MappingFragment StoreEntitySet="patient">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="second_name" ColumnName="second_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="passport" ColumnName="passport" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="card_number" ColumnName="card_number" />
+                <ScalarProperty Name="card_date" ColumnName="card_date" />
+                <ScalarProperty Name="last_visit" ColumnName="last_visit" />
+                <ScalarProperty Name="next_visit" ColumnName="next_visit" />
+                <ScalarProperty Name="policy_number" ColumnName="policy_number" />
+                <ScalarProperty Name="policy_end" ColumnName="policy_end" />
+                <ScalarProperty Name="diagnosis" ColumnName="diagnosis" />
+                <ScalarProperty Name="history" ColumnName="history" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="visit">
+            <EntityTypeMapping TypeName="hospitalModel.visit">
+              <MappingFragment StoreEntitySet="visit">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="result" ColumnName="result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

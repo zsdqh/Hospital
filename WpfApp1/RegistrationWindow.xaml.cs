@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Hospital
+namespace WpfApp1
 {
     /// <summary>
-    /// Логика взаимодействия для Registration.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
     public partial class Registration : Window
     {
@@ -46,7 +46,7 @@ namespace Hospital
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Hide();
-            MainWindow main = new();
+            MainWindow main = new MainWindow();
             main.Show();
         }
 
@@ -108,7 +108,7 @@ namespace Hospital
 
         private void Man_Click(object sender, RoutedEventArgs e)
         {
-            if(Woman.IsChecked==true)
+            if (Woman.IsChecked == true)
             {
                 Woman.IsChecked = false;
             }
@@ -122,9 +122,5 @@ namespace Hospital
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

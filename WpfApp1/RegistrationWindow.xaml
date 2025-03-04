@@ -1,11 +1,11 @@
-﻿<Window x:Class="Hospital.Registration"
+﻿<Window x:Class="WpfApp1.Registration"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Hospital"
+        xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Регистратура" Height="382" Width="945" Foreground="White" Background="White" BorderBrush="#FF424242" OpacityMask="#FF424242" Grid.IsSharedSizeScope="True" ResizeMode="NoResize">
+        Title="Window1" Height="450" Width="954">
     <Grid Margin="0,0,10,-65">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
