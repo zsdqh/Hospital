@@ -23,12 +23,14 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            List<doctor> first = hospitalEntities.Context.doctor.ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (LoginBox.Text == null || LoginBox.Text == "" || PassBox.Text == null || PassBox.Text == "")
                 throw new Exception();
+
         }
 
         private void LoginBox_GotFocus(object sender, RoutedEventArgs e)

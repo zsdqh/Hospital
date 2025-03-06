@@ -12,9 +12,19 @@ namespace WpfApp1
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class hospitalEntities : DbContext
     {
+        private static hospitalEntities _context;
+        public static hospitalEntities Context
+        {
+            get
+            {
+                if (_context == null)
+                    _context = new hospitalEntities();
+                return _context;
+            }
+        }
         public hospitalEntities()
             : base("name=hospitalEntities")
         {
