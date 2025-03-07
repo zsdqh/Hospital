@@ -24,6 +24,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             List<doctor> first = hospitalEntities.Context.doctor.ToList();
+            LoginBox.Text = first[0].name;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

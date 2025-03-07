@@ -122,5 +122,11 @@ namespace WpfApp1
             }
         }
 
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            DBService dbWindow = new DBService();
+            dbWindow.Show();
+        }
     }
 }

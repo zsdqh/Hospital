@@ -37,5 +37,7 @@
         <CheckBox Content="Женщина" HorizontalAlignment="Left" Margin="360,86,0,0" VerticalAlignment="Top" Name="Woman" Click="Woman_Click" Grid.Column="1"/>
         <DatePicker x:Name="birth"  HorizontalAlignment="Left" Margin="259,128,0,0" VerticalAlignment="Top" Width="174" DisplayDate="2000-01-01" Text="sdgdgfd" Grid.Column="1" />
         <Button Content="Записать пациента на прием к врачу" HorizontalAlignment="Left" Margin="0,318,0,0" VerticalAlignment="Top" Height="27" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242" Grid.ColumnSpan="2"/>
+        <Image HorizontalAlignment="Left" Height="40" Margin="11,30,0,0" VerticalAlignment="Top" Width="50" Source="/Resources/icon.png" Grid.ColumnSpan="2"/>
+        <Button Grid.Column="1" Content="Редактор БД" HorizontalAlignment="Left" Margin="779,322,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
     </Grid>
 </Window>
