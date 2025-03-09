@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,18 @@ namespace WpfApp1
     /// </summary>
     public partial class CrudService : Window
     {
+
         public doctor _currentDoctor = new doctor();
-        public CrudService()
+        public DBService parent;
+        public CrudService(doctor d, DBService parent)
         {
             InitializeComponent();
+            this.parent = parent;
+            _currentDoctor = d;
             DataContext = _currentDoctor;
-            //ComboDoctors.ItemSource = hospitalEntities.Context.doctor.ToList();
+            List<String> specs = hospitalEntities.Context.doctor.ToList().Select(x => x.specialization).ToList().ToHashSet().ToList();
+            Debug.WriteLine(specs.Count);
+            ComboDoctors.ItemsSource = specs;
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -39,6 +46,28 @@ namespace WpfApp1
                 errors.AppendLine("Укажиет отчество врача");
             if (string.IsNullOrWhiteSpace(_currentDoctor.specialization))
                 errors.AppendLine("Укажите специализацию");
+            if (errors.Length > 0)
+            {
+                MessageBox.Show(errors.ToString());
+                return;
+            }
+            if (_currentDoctor.id==0)
+            {
+                _currentDoctor.id=hospitalEntities.Context.doctor.ToList().Max(x => x.id)+1;
+                hospitalEntities.Context.doctor.Add(_currentDoctor);
+            }
+            try
+            {
+                hospitalEntities.Context.SaveChanges();
+                MessageBox.Show("Сохранено");
+            }
+            catch(Exception  ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            parent.Visibility = Visibility.Visible;
+            
+            this.Close();
         }
     }
 }

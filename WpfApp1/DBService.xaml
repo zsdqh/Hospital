@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="DBService" Height="450" Width="800">
+        Title="DBService" Height="450" Width="800" IsVisibleChanged="Window_IsVisibleChanged">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="435*"/>
+            <ColumnDefinition Width="336*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -14,15 +19,16 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Background="#FF424242" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Background="#FF424242" Orientation="Horizontal" Grid.ColumnSpan="3">
             <Image Height="100" Width="100" Source="/Resources/icon.png"/>
-            <TextBlock Text="Header" FontSize="24" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Text="Доктора" FontSize="24" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
 
         <!-- DataGrid -->
-        <DataGrid Grid.Row="1" Name="HotelDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column" 
-                  SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="HotelDataGrid_SelectionChanged">
+        <DataGrid Grid.Row="1" IsReadOnly="True" Name="HotelDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column" 
+                  SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="HotelDataGrid_SelectionChanged" Grid.ColumnSpan="3">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="0.3*"/>
                 <DataGridTextColumn Header="Имя" Binding="{Binding name}" Width="2*"/>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding second_name}" Width="1*"/>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding father_name}" Width="1.5*"/>
@@ -30,7 +36,7 @@
                 <DataGridTemplateColumn Width="1.5*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Редактировать" Background="Yellow" Padding="5"/>
+                            <Button Content="Редактировать" Background="Yellow" Padding="5" Foreground="Black" Click="Button_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -38,9 +44,9 @@
         </DataGrid>
 
         <!-- Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Добавить" Background="Yellow" Padding="5" Margin="5" Foreground="Black"/>
-            <Button Content="Удалить" Background="Orange" Padding="5" Margin="5" Foreground="Black"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="301,10,0,10" Grid.ColumnSpan="2" Grid.Column="1">
+            <Button Content="Добавить" Background="Yellow" Padding="5" Margin="5" Foreground="Black" Click="Button_Click_1"/>
+            <Button Content="Удалить" Background="Orange" Padding="5" Margin="5" Foreground="Black" Click="Button_Click_2"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -11,7 +11,8 @@ namespace WpfApp1
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     public partial class doctor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,8 +20,25 @@ namespace WpfApp1
         {
             this.healingevent = new HashSet<healingevent>();
             this.visit = new HashSet<visit>();
+
+
+
+            this.photo = "Фото";
+            this.name = "Имя";
+            this.second_name = "Фамилия";
+            this.father_name = "Отчество";
+            this.passport = "123456789";
+            this.birthday = DateTime.Now; // Default to current date/time
+            this.sex = 0; // Default value for sex, you might want to use an enum for better clarity
+            this.adress = "123 Колесникова";
+            this.phone = "+375(29)000-00-00";
+            this.specialization = "Специализация";
+            this.post = "Врач";
+            this.login = "username";
+            this.password = "password";
         }
-    
+
+
         public int id { get; set; }
         public string photo { get; set; }
         public string name { get; set; }

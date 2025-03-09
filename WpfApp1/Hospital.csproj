@@ -148,6 +148,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Base.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.config" />
     <None Include="Base.edmx.diagram">
       <DependentUpon>Base.edmx</DependentUpon>
     </None>
@@ -156,9 +157,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model1.Context.tt">
