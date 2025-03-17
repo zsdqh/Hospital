@@ -22,7 +22,6 @@ namespace WpfApp1
             this.visit = new HashSet<visit>();
 
 
-
             this.photo = "Фото";
             this.name = "Имя";
             this.second_name = "Фамилия";

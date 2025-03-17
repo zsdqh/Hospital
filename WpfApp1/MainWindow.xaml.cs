@@ -20,18 +20,35 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        Dictionary<string, string> doctors = new Dictionary<string, string>();
         public MainWindow()
         {
             InitializeComponent();
-            List<doctor> first = hospitalEntities.Context.doctor.ToList();
-            LoginBox.Text = first[0].name;
+            List<doctor> doctors = hospitalEntities.Context.doctor.ToList();
+            foreach(doctor d in doctors)
+            {
+                this.doctors.Add(d.login, d.password);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (LoginBox.Text == null || LoginBox.Text == "" || PassBox.Text == null || PassBox.Text == "")
-                throw new Exception();
-
+                return;
+            String login = LoginBox.Text;
+            String password = PassBox.Text;
+            String right;
+            if (doctors.TryGetValue(login, out right))
+            {
+                if (right == password)
+                {
+                    Hide();
+                    Registration regWin = new Registration();
+                    regWin.Show();
+                    return;
+                }
+            }
+                    MessageBox.Show("Неверный пароль или логин");
         }
 
         private void LoginBox_GotFocus(object sender, RoutedEventArgs e)
@@ -49,11 +66,5 @@ namespace WpfApp1
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            Registration regWin = new Registration();
-            regWin.Show();
-        }
     }
 }

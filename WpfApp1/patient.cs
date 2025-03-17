@@ -17,6 +17,8 @@ namespace WpfApp1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public patient()
         {
+            this.diagnosis = " ";
+            this.history = " ";
             this.healingevent = new HashSet<healingevent>();
             this.visit = new HashSet<visit>();
         }
