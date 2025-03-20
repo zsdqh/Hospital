@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="DBService" Height="450" Width="800" IsVisibleChanged="Window_IsVisibleChanged">
+        Title="DBService" Height="450" Width="800" IsVisibleChanged="Window_IsVisibleChanged" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="29*"/>

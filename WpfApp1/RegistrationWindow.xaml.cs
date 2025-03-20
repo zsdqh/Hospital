@@ -232,9 +232,14 @@ namespace WpfApp1
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //Hide();
             DBService dbWindow = new DBService();
             dbWindow.Show();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            PatientPage patient = new PatientPage();
+            patient.Show();
         }
     }
 }

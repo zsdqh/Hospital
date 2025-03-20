@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="954">
-    <Grid Margin="0,0,10,-65">
+        Title="Window1" Height="365" Width="936" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-6">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
             <ColumnDefinition Width="857*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="LoInButton" Content="Зарегистрировать" HorizontalAlignment="Left" Margin="260,268,0,0"  VerticalAlignment="Top" Height="46" Width="280" Click="Button_Click" FontSize="22" Grid.Column="1"/>
+        <Button x:Name="LoInButton" Content="Зарегистрировать" HorizontalAlignment="Left" Margin="572,268,0,0"  VerticalAlignment="Top" Height="46" Width="280" Click="Button_Click" FontSize="22" Grid.Column="1"/>
         <TextBox x:Name="NameBox" HorizontalAlignment="Left" Margin="10,85,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="280" Height="25" GotFocus="NameBox_GotFocus" Grid.ColumnSpan="2">
         </TextBox>
         <TextBox x:Name="SecondNameBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="280" Height="25" Margin="10,127,0,0" GotFocus="SecondNameBox_GotFocus" Grid.ColumnSpan="2">
@@ -34,9 +34,9 @@
         <CheckBox Content="Мужчина" HorizontalAlignment="Left" Margin="259,86,0,0" VerticalAlignment="Top" Name="Man" Click="Man_Click" Grid.Column="1"/>
         <CheckBox Content="Женщина" HorizontalAlignment="Left" Margin="360,86,0,0" VerticalAlignment="Top" Name="Woman" Click="Woman_Click" Grid.Column="1"/>
         <DatePicker x:Name="birth"  HorizontalAlignment="Left" Margin="259,128,0,0" VerticalAlignment="Top" Width="174" DisplayDate="2000-01-01" Text="sdgdgfd" Grid.Column="1" />
-        <Button Content="Записать пациента на прием к врачу" HorizontalAlignment="Left" Margin="0,318,0,0" VerticalAlignment="Top" Height="27" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242" Grid.ColumnSpan="2"/>
+        <Button Content="Пациенты" HorizontalAlignment="Left" Margin="11,268,0,0" VerticalAlignment="Top" Height="46" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242" Grid.ColumnSpan="2" FontSize="22" Click="Button_Click_3"/>
         <Image HorizontalAlignment="Left" Height="40" Margin="11,30,0,0" VerticalAlignment="Top" Width="50" Source="/Resources/icon.png" Grid.ColumnSpan="2"/>
-        <Button Grid.Column="1" Content="Редактор БД" HorizontalAlignment="Left" Margin="779,322,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
+        <Button Grid.Column="1" Content="Редактор БД" HorizontalAlignment="Left" Margin="779,48,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
         <TextBox x:Name="PhotoPathBox" Grid.Column="1" HorizontalAlignment="Left" Margin="572,127,0,0" TextWrapping="Wrap" Text="Путь к фото" VerticalAlignment="Top" Width="252" Height="25" />
         <Button Grid.Column="1" Content="+" HorizontalAlignment="Left" Margin="829,128,0,0" VerticalAlignment="Top" Width="23" Height="22" Click="SelectPhotoButton_Click"/>
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="324" Width="375">
+        Title="MainWindow" Height="324" Width="375" ResizeMode="NoResize">
     <Grid Margin="10,0,10,11">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="719*"/>
@@ -21,6 +21,5 @@
         <TextBox x:Name="PassBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="280" Height="25" GotFocus="PassBox_GotFocus" Margin="34,155,0,0">
         </TextBox>
         <Label Content="Вход" HorizontalAlignment="Left" Margin="133,32,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="88"/>
-
     </Grid>
 </Window>

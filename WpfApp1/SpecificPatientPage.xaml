@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfApp1.SpecificPatientPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="SpecificPatientPage" Height="319" Width="800">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="200"/>
+        <TextBlock HorizontalAlignment="Left" Margin="240,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="200" Width="546"/>
+        <Button Content="Заполнить договор на мед. обслуживание" HorizontalAlignment="Left" Margin="10,249,0,0" VerticalAlignment="Top" Width="240"/>
+        <Button Content="Заполнить договор на согласие на обработку перс. данных" HorizontalAlignment="Left" Margin="255,249,0,0" VerticalAlignment="Top" Width="335"/>
+        <Button Content="Записать на прием" HorizontalAlignment="Left" Margin="595,249,0,0" VerticalAlignment="Top" Width="195"/>
+
+    </Grid>
+</Window>
