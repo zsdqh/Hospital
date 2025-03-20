@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,24 +24,130 @@ namespace WpfApp1
         public Registration()
         {
             InitializeComponent();
+            Man.IsChecked = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            bool isValid = true;
 
+            void Validate(TextBox box, string pattern = null)
+            {
+                if (string.IsNullOrWhiteSpace(box.Text) || (pattern != null && !System.Text.RegularExpressions.Regex.IsMatch(box.Text, pattern)))
+                {
+                    box.Foreground = Brushes.Red;
+                    isValid = false;
+                }
+                else
+                {
+                    box.Foreground = Brushes.Black;
+                }
+            }
+
+            Validate(NameBox);
+            Validate(SecondNameBox);
+            Validate(FatherNameBox);
+            Validate(PassportBox, @"BY\d{4}[A-Z]\d{3}[A-Z]{2}\d");
+            Validate(PhoneBox, @"\+375\((25|44|33|29)\)\d{3}-\d{2}-\d{2}");
+            Validate(EmailBox, @"^[a-zA-Z0-9._%+-]+@(gmail\.com|mail\.ru)$");
+            Validate(AdressBox);
+            Validate(LoginBox);
+            Validate(PasswordBox, @".{4,}");
+            birth.Foreground = Brushes.Black;
+            DateTime? birthday = birth.SelectedDate;
+            if (birthday == null || birthday>=DateTime.Now)
+            {
+                birth.Foreground = Brushes.Red;
+                isValid = false;
+            }
+
+            if (isValid)
+            {
+                patient d = new patient();
+                d.id=hospitalEntities.Context.patient.ToList().Max(x => x.id) + 1;
+                d.name = NameBox.Text;
+                d.second_name = SecondNameBox.Text;
+                d.father_name = FatherNameBox.Text;
+                d.passport = PassportBox.Text;
+                if (hospitalEntities.Context.patient.Select(x=>x.passport).ToHashSet().Contains(d.passport))
+                        {
+                    Validate(PassportBox, "ERRORVALUE");
+                    goto error;
+                }
+                d.birthday = birth.SelectedDate.Value;
+                d.sex = (bool)Man.IsChecked ? 1 : 0;
+                d.adress = AdressBox.Text;
+                d.phone = PhoneBox.Text;
+                if (hospitalEntities.Context.patient.Select(x => x.phone).ToHashSet().Contains(d.phone))
+                {
+                    Validate(PhoneBox, "ERRORVALUE");
+                    goto error;
+                }
+                d.email = EmailBox.Text;
+                if (hospitalEntities.Context.patient.Select(x => x.email).ToHashSet().Contains(d.email))
+                {
+                    Validate(EmailBox, "ERRORVALUE");
+                    goto error;
+                }
+                d.card_number = hospitalEntities.Context.patient.ToList().Max(x => x.card_number) + 1;
+                d.card_date = DateTime.Now;
+                d.last_visit = DateTime.Now;
+                d.next_visit = DateTime.Now;
+                d.card_date = d.card_date.AddYears(4);
+                d.policy_number = hospitalEntities.Context.patient.ToList().Max(x => x.policy_number) + 1;
+                d.policy_end = d.card_date;
+                d.login = LoginBox.Text;
+                d.password = PasswordBox.Text;
+                if(File.Exists(PhotoPathBox.Text))
+                {
+                    d.photo = PhotoPathBox.Text;
+                }
+                try
+                {
+                    hospitalEntities.Context.patient.Add(d);
+                    hospitalEntities.Context.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            Console.WriteLine($"Свойство: {validationError.PropertyName} Ошибка: {validationError.ErrorMessage}");
+                        }
+                    }
+                }
+
+            }
+        error:
+            MessageBox.Show(isValid ? "Все данные введены корректно!" : "Некоторые поля заполнены неверно. Проверьте и исправьте их.");
         }
+
+        private void SelectPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                PhotoPathBox.Text = openFileDialog.FileName;
+            }
+        }
+
         private void WorkBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            WorkBox.Text = "";
+            LoginBox.Text = "";
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-            WorkBox.Foreground = brush;
+            LoginBox.Foreground = brush;
         }
 
         private void StrahBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            StrahBox.Text = "";
+            PasswordBox.Text = "";
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-            StrahBox.Foreground = brush;
+            PasswordBox.Foreground = brush;
 
         }
 
@@ -99,12 +207,12 @@ namespace WpfApp1
             EmailBox.Foreground = brush;
         }
 
-        private void PolicyNumberBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            PolicyNumberBox.Text = "";
-            SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-            PolicyNumberBox.Foreground = brush;
-        }
+        //private void PolicyNumberBox_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    PolicyNumberBox.Text = "";
+        //    SolidColorBrush brush = new SolidColorBrush(Colors.Black);
+        //    PolicyNumberBox.Foreground = brush;
+        //}
 
         private void Man_Click(object sender, RoutedEventArgs e)
         {

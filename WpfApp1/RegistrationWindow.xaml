@@ -27,11 +27,9 @@
         </TextBox>
         <TextBox x:Name="EmailBox" HorizontalAlignment="Left" Margin="572,85,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="280" Height="25" GotFocus="EmailBox_GotFocus" Grid.Column="1">
         </TextBox>
-        <TextBox x:Name="PolicyNumberBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Номер полиса" VerticalAlignment="Top" Width="280" Height="25" Margin="572,127,0,0" GotFocus="PolicyNumberBox_GotFocus" Grid.Column="1">
+        <TextBox x:Name="LoginBox" HorizontalAlignment="Left" Margin="572,172,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="280" Height="25" GotFocus="WorkBox_GotFocus" Grid.Column="1">
         </TextBox>
-        <TextBox x:Name="WorkBox" HorizontalAlignment="Left" Margin="572,172,0,0" TextWrapping="Wrap" Text="Место работы" VerticalAlignment="Top" Width="280" Height="25" GotFocus="WorkBox_GotFocus" Grid.Column="1">
-        </TextBox>
-        <TextBox x:Name="StrahBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Страховая компания" VerticalAlignment="Top" Width="280" Height="25" GotFocus="StrahBox_GotFocus" Margin="572,214,0,0" Grid.Column="1">
+        <TextBox x:Name="PasswordBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="280" Height="25" GotFocus="StrahBox_GotFocus" Margin="572,214,0,0" Grid.Column="1">
         </TextBox>
         <CheckBox Content="Мужчина" HorizontalAlignment="Left" Margin="259,86,0,0" VerticalAlignment="Top" Name="Man" Click="Man_Click" Grid.Column="1"/>
         <CheckBox Content="Женщина" HorizontalAlignment="Left" Margin="360,86,0,0" VerticalAlignment="Top" Name="Woman" Click="Woman_Click" Grid.Column="1"/>
@@ -39,5 +37,8 @@
         <Button Content="Записать пациента на прием к врачу" HorizontalAlignment="Left" Margin="0,318,0,0" VerticalAlignment="Top" Height="27" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242" Grid.ColumnSpan="2"/>
         <Image HorizontalAlignment="Left" Height="40" Margin="11,30,0,0" VerticalAlignment="Top" Width="50" Source="/Resources/icon.png" Grid.ColumnSpan="2"/>
         <Button Grid.Column="1" Content="Редактор БД" HorizontalAlignment="Left" Margin="779,322,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
+        <TextBox x:Name="PhotoPathBox" Grid.Column="1" HorizontalAlignment="Left" Margin="572,127,0,0" TextWrapping="Wrap" Text="Путь к фото" VerticalAlignment="Top" Width="252" Height="25" />
+        <Button Grid.Column="1" Content="+" HorizontalAlignment="Left" Margin="829,128,0,0" VerticalAlignment="Top" Width="23" Height="22" Click="SelectPhotoButton_Click"/>
+
     </Grid>
 </Window>
