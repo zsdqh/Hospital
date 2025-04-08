@@ -11,8 +11,8 @@
             <RowDefinition Height="51*"/>
             <RowDefinition Height="166*"/>
         </Grid.RowDefinitions>
-        <ComboBox SelectedItem="{Binding specialization}"  x:Name="ComboDoctors"  Grid.Row="1" HorizontalAlignment="Left" Margin="171,184,0,0" VerticalAlignment="Top" Width="619" Height="35" />
-        <Label Content="Специализация" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" FontSize="20" Grid.Row="1" Height="37" Width="153"/>
+        <ComboBox SelectedItem="{Binding specialization}"  x:Name="ComboDoctors"  Grid.Row="1" HorizontalAlignment="Left" Margin="171,206,0,0" VerticalAlignment="Top" Width="619" Height="35" />
+        <Label Content="Специализация" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" FontSize="20" Grid.Row="1" Height="37" Width="153"/>
         <Label Content="Отчество" HorizontalAlignment="Left" Margin="11,0,0,0" VerticalAlignment="Center" FontSize="20" Grid.Row="1" Height="37" Width="95"/>
         <Label Content="Фамилия" HorizontalAlignment="Left" Margin="11,84,0,0" VerticalAlignment="Top" FontSize="20" Grid.Row="1" Height="37" Width="93"/>
         <Label Content="Имя" HorizontalAlignment="Left" Margin="11,34,0,0" VerticalAlignment="Top" FontSize="20" Grid.Row="1" Height="37" Width="49"/>
@@ -25,7 +25,7 @@
             <Image HorizontalAlignment="Left" Height="91" VerticalAlignment="Top" Width="100" Source="/Resources/icon.png" Margin="10,10,0,0"/>
         </Grid>
         <Grid Grid.Row="1" Margin="0,315,0,0" Background="#FF424242"/>
-        <Button x:Name="ButtonBack" Content="Вернуться" HorizontalAlignment="Left" Height="38" Margin="626,22,0,0" VerticalAlignment="Top" Width="164" FontSize="16" Click="ButtonSave_Click"/>
+        <Button x:Name="ButtonBack" Content="Вернуться" HorizontalAlignment="Left" Height="38" Margin="626,0,0,0" VerticalAlignment="Center" Width="164" FontSize="16" Click="ButtonSave_Click"/>
 
     </Grid>
 </Window>

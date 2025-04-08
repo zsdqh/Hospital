@@ -66,5 +66,9 @@ namespace WpfApp1
 
         }
 
+        private void LoginBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
