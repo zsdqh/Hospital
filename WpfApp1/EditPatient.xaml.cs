@@ -15,15 +15,20 @@ using System.Windows.Shapes;
 namespace WpfApp1
 {
     /// <summary>
-    /// Логика взаимодействия для VisitService.xaml
+    /// Логика взаимодействия для EditPatient.xaml
     /// </summary>
-    public partial class VisitService : Window
+    /// 
+
+    /*
+     TODO
+    СДелать редактирование пациента
+     */
+    public partial class EditPatient : Window
     {
-        patient _current_patient;
-        public VisitService(patient p)
+        public EditPatient()
         {
+            
             InitializeComponent();
-            _current_patient = p;
         }
     }
 }

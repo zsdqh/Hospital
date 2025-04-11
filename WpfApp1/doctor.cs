@@ -27,8 +27,8 @@ namespace WpfApp1
             this.second_name = "Фамилия";
             this.father_name = "Отчество";
             this.passport = "123456789";
-            this.birthday = DateTime.Now; // Default to current date/time
-            this.sex = 0; // Default value for sex, you might want to use an enum for better clarity
+            this.birthday = DateTime.Now;
+            this.sex = 0; // 0 - женский 1 - мужской
             this.adress = "123 Колесникова";
             this.phone = "+375(29)000-00-00";
             this.specialization = "Специализация";

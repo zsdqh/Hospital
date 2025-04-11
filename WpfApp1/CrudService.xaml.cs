@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WpfApp1
 {
@@ -29,7 +31,7 @@ namespace WpfApp1
             this.parent = parent;
             _currentDoctor = d;
             DataContext = _currentDoctor;
-            List<String> specs = hospitalEntities.Context.doctor.ToList().Select(x => x.specialization).ToList().ToHashSet().ToList();
+            List<String> specs = hospitalEntities.Context.doctor.ToList().Select(x => x.specialization).ToList().ToHashSet().ToList(); // Добавление уникальных специализаций врачей
             Debug.WriteLine(specs.Count);
             ComboDoctors.ItemsSource = specs;
         }
@@ -37,7 +39,11 @@ namespace WpfApp1
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
-
+            //Логика обработки ошибок
+            /*
+             TODO
+            Изменить полностью редактирование, сделать возможность редактирования всех полей, добавить кнопку изменения расписания врача
+             */
             if (string.IsNullOrWhiteSpace(_currentDoctor.name))
                 errors.AppendLine("Укажите имя врача");
             if (string.IsNullOrWhiteSpace(_currentDoctor.second_name))
@@ -69,5 +75,6 @@ namespace WpfApp1
             
             this.Close();
         }
+
     }
 }

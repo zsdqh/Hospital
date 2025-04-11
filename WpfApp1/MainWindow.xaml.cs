@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +24,19 @@ namespace WpfApp1
         Dictionary<string, string> doctors = new Dictionary<string, string>();
         public MainWindow()
         {
+            // Добавление докторов в список доступных пользователей для входа
             InitializeComponent();
             List<doctor> doctors = hospitalEntities.Context.doctor.ToList();
             foreach(doctor d in doctors)
             {
                 this.doctors.Add(d.login, d.password);
             }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // Обработка авторизации пользователей
             if (LoginBox.Text == null || LoginBox.Text == "" || PassBox.Text == null || PassBox.Text == "")
                 return;
             String login = LoginBox.Text;
@@ -66,9 +70,5 @@ namespace WpfApp1
 
         }
 
-        private void LoginBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

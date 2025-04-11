@@ -43,7 +43,7 @@ namespace WpfApp1
                     box.Foreground = Brushes.Black;
                 }
             }
-
+            // Валидация данных пациента
             Validate(NameBox);
             Validate(SecondNameBox);
             Validate(FatherNameBox);
@@ -69,6 +69,7 @@ namespace WpfApp1
                 d.second_name = SecondNameBox.Text;
                 d.father_name = FatherNameBox.Text;
                 d.passport = PassportBox.Text;
+                // Обработка уникальности данных
                 if (hospitalEntities.Context.patient.Select(x=>x.passport).ToHashSet().Contains(d.passport))
                         {
                     Validate(PassportBox, "ERRORVALUE");
@@ -125,6 +126,7 @@ namespace WpfApp1
 
         private void SelectPhotoButton_Click(object sender, RoutedEventArgs e)
         {
+            // Обработка добавления фотографии
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*"
@@ -206,14 +208,7 @@ namespace WpfApp1
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
             EmailBox.Foreground = brush;
         }
-
-        //private void PolicyNumberBox_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    PolicyNumberBox.Text = "";
-        //    SolidColorBrush brush = new SolidColorBrush(Colors.Black);
-        //    PolicyNumberBox.Foreground = brush;
-        //}
-
+        // Обработка выбора пола
         private void Man_Click(object sender, RoutedEventArgs e)
         {
             if (Woman.IsChecked == true)
@@ -229,7 +224,7 @@ namespace WpfApp1
                 Man.IsChecked = false;
             }
         }
-
+        //Перенос в другие окна
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             DBService dbWindow = new DBService();

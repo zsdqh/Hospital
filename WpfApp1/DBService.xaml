@@ -47,6 +47,7 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="301,10,0,10" Grid.ColumnSpan="2" Grid.Column="1">
             <Button Content="Добавить" Background="Yellow" Padding="5" Margin="5" Foreground="Black" Click="Button_Click_1"/>
             <Button Content="Удалить" Background="Orange" Padding="5" Margin="5" Foreground="Black" Click="Button_Click_2"/>
+            <Button Content="Выработка" Margin="100 5 5 5" HorizontalAlignment="right" Click="Button_Click_3"></Button>
         </StackPanel>
     </Grid>
 </Window>

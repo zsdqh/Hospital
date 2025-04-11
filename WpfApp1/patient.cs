@@ -15,7 +15,7 @@ namespace WpfApp1
     public partial class patient
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public patient()
+        public patient() 
         {
             this.diagnosis = " ";
             this.history = " ";

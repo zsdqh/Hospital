@@ -25,6 +25,9 @@ namespace WpfApp1
             InitializeComponent();
             var currentPatients = hospitalEntities.Context.patient.ToList();
             Patients.ItemsSource = currentPatients;
+            /*
+                Добавление к пути каждой фотографии префикса о том, что ссылка является абсолютной 
+             */
             foreach (var currentPatient in currentPatients)
                 currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
         }
@@ -32,14 +35,27 @@ namespace WpfApp1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var currentPatients = hospitalEntities.Context.patient.ToList();
+            // Обработка фильтрации пациентов
 
             if(TBoxSearch.Text != null && TBoxSearch.Text != "")
-                currentPatients = currentPatients.Where(p => p.second_name.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+                currentPatients = currentPatients.Where(p => p.second_name.ToLower().StartsWith(TBoxSearch.Text.ToLower())).ToList();
             
             if (TBoxSearchSecond.Text != null && TBoxSearchSecond.Text != "")
-                currentPatients = currentPatients.Where(p => p.card_number.ToString().Contains(TBoxSearchSecond.Text)).ToList();
+                currentPatients = currentPatients.Where(p => p.card_number.ToString().StartsWith(TBoxSearchSecond.Text)).ToList();
 
             Patients.ItemsSource = currentPatients;
+        }
+
+        // Открытие окон просмотра и редактирования
+        private void Item_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            SpecificPatientPage spp = new SpecificPatientPage((sender as ListViewItem).DataContext as patient);
+            spp.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

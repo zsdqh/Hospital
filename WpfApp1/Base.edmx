@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище hospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище hospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="doctor">
           <Key>
             <PropertyRef Name="id" />
@@ -27,8 +27,6 @@
         <EntityType Name="healingevent">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="patient_id" />
-            <PropertyRef Name="doctor_id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="patient_id" Type="int" Nullable="false" />
@@ -56,20 +54,18 @@
           <Property Name="email" Type="varchar" MaxLength="255" />
           <Property Name="card_number" Type="int" Nullable="false" />
           <Property Name="card_date" Type="date" Nullable="false" />
-          <Property Name="last_visit" Type="datetime" Nullable="false" />
-          <Property Name="next_visit" Type="datetime" Nullable="false" />
+          <Property Name="last_visit" Type="datetime" />
+          <Property Name="next_visit" Type="datetime" />
           <Property Name="policy_number" Type="int" Nullable="false" />
           <Property Name="policy_end" Type="date" Nullable="false" />
-          <Property Name="diagnosis" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="history" Type="text" Nullable="false" />
+          <Property Name="diagnosis" Type="varchar" MaxLength="255" />
+          <Property Name="history" Type="text" />
           <Property Name="login" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="visit">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="patient_id" />
-            <PropertyRef Name="doctor_id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="patient_id" Type="int" Nullable="false" />
@@ -148,8 +144,7 @@
             <End Role="visit" EntitySet="visit" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="hospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -177,8 +172,6 @@
         <EntityType Name="healingevent">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="patient_id" />
-            <PropertyRef Name="doctor_id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="patient_id" Type="Int32" Nullable="false" />
@@ -208,12 +201,12 @@
           <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="card_number" Type="Int32" Nullable="false" />
           <Property Name="card_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="last_visit" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="next_visit" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="last_visit" Type="DateTime" Precision="3" />
+          <Property Name="next_visit" Type="DateTime" Precision="3" />
           <Property Name="policy_number" Type="Int32" Nullable="false" />
           <Property Name="policy_end" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="diagnosis" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="history" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="diagnosis" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="history" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="healingevent" Relationship="Self.FK_healingevent_patient" FromRole="patient" ToRole="healingevent" />
@@ -222,8 +215,6 @@
         <EntityType Name="visit">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="patient_id" />
-            <PropertyRef Name="doctor_id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="patient_id" Type="Int32" Nullable="false" />
