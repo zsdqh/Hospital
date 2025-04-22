@@ -29,7 +29,13 @@ namespace WpfApp1
                 Добавление к пути каждой фотографии префикса о том, что ссылка является абсолютной 
              */
             foreach (var currentPatient in currentPatients)
-                currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
+            {
+                if(! currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
+                {
+                    currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
+                }
+            }
+            hospitalEntities.Context.SaveChanges();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -31,6 +31,12 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, d.password);
             }
+            //foreach(patient p in hospitalEntities.Context.patient.ToList())
+            //{
+            //    p.photo = p.photo.Replace("pack://siteoforigin:,,,/","");
+            //}
+            //hospitalEntities.Context.SaveChanges();
+            // Восстановление путей фото если капут
 
         }
 
