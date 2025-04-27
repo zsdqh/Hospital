@@ -5,40 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Window1" Height="365" Width="936" ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-6">
+        Title="Регистрация" Height="430" Width="936">
+    <Grid>
+        <!-- Задаём две колонки: левая для иконки, правая – основное содержимое -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="59*"/>
-            <ColumnDefinition Width="857*"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="6*" />
         </Grid.ColumnDefinitions>
-        <Button x:Name="LoInButton" Content="Зарегистрировать" HorizontalAlignment="Left" Margin="257,268,0,0"  VerticalAlignment="Top" Height="46" Width="280" Click="Button_Click" FontSize="22" Grid.Column="1"/>
-        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Margin="10,85,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="280" Height="25" GotFocus="NameBox_GotFocus" Grid.ColumnSpan="2">
-        </TextBox>
-        <TextBox x:Name="SecondNameBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="280" Height="25" Margin="10,127,0,0" GotFocus="SecondNameBox_GotFocus" Grid.ColumnSpan="2">
-        </TextBox>
-        <Label Content="Регистратура" HorizontalAlignment="Left" Margin="286,20,0,0" VerticalAlignment="Top" FontSize="36" Grid.Column="1"/>
-        <TextBox x:Name="FatherNameBox" HorizontalAlignment="Left" Margin="10,172,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top" Width="280" Height="25" GotFocus="FatherNameBox_GotFocus" Grid.ColumnSpan="2">
-        </TextBox>
-        <TextBox x:Name="PassportBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Номер паспорта" VerticalAlignment="Top" Width="280" Height="25" Margin="10,214,0,0" GotFocus="PassportBox_GotFocus" Grid.ColumnSpan="2">
-        </TextBox>
-        <TextBox x:Name="AdressBox" HorizontalAlignment="Left" Margin="260,172,0,0" TextWrapping="Wrap" Text="Адресс" VerticalAlignment="Top" Width="280" Height="25" GotFocus="AdressBox_GotFocus" Grid.Column="1">
-        </TextBox>
-        <TextBox x:Name="PhoneBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top" Width="280" Height="25" Margin="260,214,0,0" GotFocus="PhoneBox_GotFocus" Grid.Column="1">
-        </TextBox>
-        <TextBox x:Name="EmailBox" HorizontalAlignment="Left" Margin="572,85,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="280" Height="25" GotFocus="EmailBox_GotFocus" Grid.Column="1">
-        </TextBox>
-        <TextBox x:Name="LoginBox" HorizontalAlignment="Left" Margin="572,172,0,0" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="280" Height="25" GotFocus="WorkBox_GotFocus" Grid.Column="1">
-        </TextBox>
-        <TextBox x:Name="PasswordBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="280" Height="25" GotFocus="StrahBox_GotFocus" Margin="572,214,0,0" Grid.Column="1">
-        </TextBox>
-        <CheckBox Content="Мужчина" HorizontalAlignment="Left" Margin="259,86,0,0" VerticalAlignment="Top" Name="Man" Click="Man_Click" Grid.Column="1"/>
-        <CheckBox Content="Женщина" HorizontalAlignment="Left" Margin="360,86,0,0" VerticalAlignment="Top" Name="Woman" Click="Woman_Click" Grid.Column="1"/>
-        <DatePicker x:Name="birth"  HorizontalAlignment="Left" Margin="259,128,0,0" VerticalAlignment="Top" Width="174" DisplayDate="2000-01-01" Text="sdgdgfd" Grid.Column="1" />
-        <Button Content="Пациенты" HorizontalAlignment="Left" Margin="11,268,0,0" VerticalAlignment="Top" Height="46" Width="228" BorderBrush="#FF707070" Foreground="White" Background="#FF424242" Grid.ColumnSpan="2" FontSize="22" Click="Button_Click_3"/>
-        <Image HorizontalAlignment="Left" Height="40" Margin="11,30,0,0" VerticalAlignment="Top" Width="50" Source="/Resources/icon.png" Grid.ColumnSpan="2"/>
-        <Button Grid.Column="1" Content="Врачи"  FontSize="22" Height="46" Width="280" HorizontalAlignment="Left" Margin="572,271,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
-        <TextBox x:Name="PhotoPathBox" Grid.Column="1" HorizontalAlignment="Left" Margin="572,127,0,0" TextWrapping="Wrap" Text="Путь к фото" VerticalAlignment="Top" Width="252" Height="25" />
-        <Button Grid.Column="1" Content="+" HorizontalAlignment="Left" Margin="829,128,0,0" VerticalAlignment="Top" Width="23" Height="22" Click="SelectPhotoButton_Click"/>
+        <!-- Определяем три строки: заголовок, секция с полями ввода и секция с кнопками -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
+        <!-- Верхняя часть: Иконка и заголовок -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2" Margin="10">
+            <Image Source="/Resources/icon.png" Width="50" Height="40" />
+            <Label Content="Регистратура" FontSize="36" VerticalAlignment="Center" Margin="20,0,0,0"/>
+        </StackPanel>
+
+        <!-- Секция ввода данных -->
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10,20,10,0">
+            <!-- Три равные колонки -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!-- Четыре строки для полей -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Первая колонка: Имя, Фамилия, Отчество, Номер паспорта -->
+            <TextBox x:Name="NameBox" Grid.Row="0" Grid.Column="0" Text="Имя" 
+                     Width="280" Height="25" Margin="10" GotFocus="NameBox_GotFocus"
+                     ToolTip="Введите имя" />
+            <TextBox x:Name="SecondNameBox" Grid.Row="1" Grid.Column="0" Text="Фамилия"
+                     Width="280" Height="25" Margin="10" GotFocus="SecondNameBox_GotFocus"
+                     ToolTip="Введите фамилию" />
+            <TextBox x:Name="FatherNameBox" Grid.Row="2" Grid.Column="0" Text="Отчество" 
+                     Width="280" Height="25" Margin="10" GotFocus="FatherNameBox_GotFocus"
+                     ToolTip="Введите отчество" />
+            <TextBox x:Name="PassportBox" Grid.Row="3" Grid.Column="0" Text="Номер паспорта" 
+                     Width="280" Height="25" Margin="10" GotFocus="PassportBox_GotFocus"
+                     ToolTip="Введите номер паспорта" />
+
+            <!-- Вторая колонка: Пол, Дата рождения, Адрес, Номер телефона -->
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="10">
+                <CheckBox x:Name="Man" Content="Мужчина" Click="Man_Click" />
+                <CheckBox x:Name="Woman" Content="Женщина" Click="Woman_Click" Margin="20,0,0,0" />
+            </StackPanel>
+            <DatePicker x:Name="birth" Grid.Row="1" Grid.Column="1" Width="174"
+                        DisplayDate="2000-01-01" Margin="10"
+                        ToolTip="Выберите дату рождения" />
+            <TextBox x:Name="AdressBox" Grid.Row="2" Grid.Column="1" Text="Адрес" 
+                     Width="280" Height="25" Margin="10" GotFocus="AdressBox_GotFocus"
+                     ToolTip="Введите адрес" />
+            <TextBox x:Name="PhoneBox" Grid.Row="3" Grid.Column="1" Text="Номер телефона" 
+                     Width="280" Height="25" Margin="10" GotFocus="PhoneBox_GotFocus"
+                     ToolTip="Введите номер телефона" />
+
+            <!-- Третья колонка: Email, Путь к фото (с кнопкой), Логин и Пароль -->
+            <TextBox x:Name="EmailBox" Grid.Row="0" Grid.Column="2" Text="Email" 
+                     Width="280" Height="25" Margin="10" GotFocus="EmailBox_GotFocus"
+                     ToolTip="Введите email" />
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Margin="11">
+                <TextBox x:Name="PhotoPathBox" Text="Путь к фото" 
+                         Width="250" Height="25"
+                         ToolTip="Выберите путь к фото" />
+                <Button Content="+" Width="23" Height="22" 
+                        Click="SelectPhotoButton_Click" Margin="5,0,0,0" />
+            </StackPanel>
+            <TextBox x:Name="LoginBox" Grid.Row="2" Grid.Column="2" Text="Логин" 
+                     Width="280" Height="25" Margin="10" GotFocus="WorkBox_GotFocus"
+                     ToolTip="Введите логин" />
+            <TextBox x:Name="PasswordBox" Grid.Row="3" Grid.Column="2" Text="Пароль" 
+                     Width="280" Height="25" Margin="10" GotFocus="StrahBox_GotFocus"
+                     ToolTip="Введите пароль" />
+        </Grid>
+
+        <!-- Секция кнопок -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="10,20,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Пациенты" Grid.Column="0" Height="46" Width="228" 
+                    Background="#FF424242" Foreground="White" BorderBrush="#FF707070" 
+                    FontSize="22" Click="Button_Click_3" Margin="10"/>
+            <Button x:Name="LoInButton" Content="Зарегистрировать" Grid.Column="1" 
+                    Height="46" Width="280" FontSize="22" Click="Button_Click" Margin="10"/>
+            <Button Content="Врачи" Grid.Column="2" Height="46" Width="280" FontSize="22" 
+                    Click="Button_Click_2" Margin="10"/>
+        </Grid>
     </Grid>
 </Window>

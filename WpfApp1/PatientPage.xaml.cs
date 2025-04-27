@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace WpfApp1
              */
             foreach (var currentPatient in currentPatients)
             {
-                if(! currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
+                if (! currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
                 {
                     currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
                 }
@@ -61,6 +62,9 @@ namespace WpfApp1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            // переход на страницу редактирования
+            EditPatient ep = new EditPatient((sender as Button).DataContext as patient);
+            ep.Show();
             Close();
         }
     }

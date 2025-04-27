@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -21,7 +22,11 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        Dictionary<string, string> doctors = new Dictionary<string, string>();
+        Dictionary<string, int> doctors = new Dictionary<string, int>();
+        private int custom_hash(string to_hash)
+        {
+            return ((to_hash.GetHashCode()*11)<<4)/7;
+        }
         public MainWindow()
         {
             // Добавление докторов в список доступных пользователей для входа
@@ -29,14 +34,16 @@ namespace WpfApp1
             List<doctor> doctors = hospitalEntities.Context.doctor.ToList();
             foreach(doctor d in doctors)
             {
-                this.doctors.Add(d.login, d.password);
+                this.doctors.Add(d.login, custom_hash(d.password));
             }
+
+
             //foreach(patient p in hospitalEntities.Context.patient.ToList())
             //{
             //    p.photo = p.photo.Replace("pack://siteoforigin:,,,/","");
             //}
             //hospitalEntities.Context.SaveChanges();
-            // Восстановление путей фото если капут
+            // Восстановление путей фото
 
         }
 
@@ -47,10 +54,10 @@ namespace WpfApp1
                 return;
             String login = LoginBox.Text;
             String password = PassBox.Text;
-            String right;
+            int right;
             if (doctors.TryGetValue(login, out right))
             {
-                if (right == password)
+                if (right == custom_hash(password))
                 {
                     Hide();
                     Registration regWin = new Registration();
@@ -58,7 +65,18 @@ namespace WpfApp1
                     return;
                 }
             }
-                    MessageBox.Show("Неверный пароль или логин");
+
+            MessageBox.Show("Неверный пароль или логин");
+            LoInButton.IsEnabled = false;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Tick += (s, ee) =>
+            {
+                LoInButton.IsEnabled = true;
+                timer.Stop();
+            };
+            timer.Start();
+
         }
 
         private void LoginBox_GotFocus(object sender, RoutedEventArgs e)
