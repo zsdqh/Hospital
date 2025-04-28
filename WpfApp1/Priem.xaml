@@ -9,6 +9,10 @@
       Title="Priem">
 
     <Grid>
-        <Label>Прием</Label>
+        <StackPanel>
+            <ListBox x:Name="doctorsAvailable" Height="200" Margin="10" Width="248"></ListBox>
+            <ComboBox Name="SpecCombo" Margin="10" Width="200" SelectionChanged="SpecCombo_SelectionChanged"/>
+            <Button Width="100" Height="45" FontSize="20">Записать</Button>
+        </StackPanel>
     </Grid>
 </Page>

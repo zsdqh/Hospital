@@ -86,11 +86,17 @@
     <Compile Include="Clock.xaml.cs">
       <DependentUpon>Clock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CrudService.xaml.cs">
-      <DependentUpon>CrudService.xaml</DependentUpon>
+    <Compile Include="EditDoctor.xaml.cs">
+      <DependentUpon>EditDoctor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBService.xaml.cs">
-      <DependentUpon>DBService.xaml</DependentUpon>
+    <Compile Include="ScheduleWIndow.xaml.cs">
+      <DependentUpon>ScheduleWIndow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SpecificDoctorPage.xaml.cs">
+      <DependentUpon>SpecificDoctorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DoctorPage.xaml.cs">
+      <DependentUpon>DoctorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="doctor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -134,11 +140,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CrudService.xaml">
+    <Page Include="EditDoctor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DBService.xaml">
+    <Page Include="ScheduleWIndow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SpecificDoctorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DoctorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

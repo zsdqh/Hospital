@@ -18,75 +18,92 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WpfApp1
 {
     /// <summary>
-    /// Логика взаимодействия для DBService.xaml
+    /// Логика взаимодействия для DoctorPage.xaml
     /// </summary>
-    public partial class DBService : Window
+    public partial class DoctorPage : Window
     {
         private doctor _currentDoctor = new doctor();
-        public DBService()
+        public DoctorPage()
         {
             InitializeComponent();
-            HotelDataGrid.ItemsSource = hospitalEntities.Context.doctor.ToList();
-        }
+            var currentDoctors = hospitalEntities.Context.doctor.ToList();
+            Patients.ItemsSource = currentDoctors;
+            /*
+                Добавление к пути каждой фотографии префикса о том, что ссылка является абсолютной 
+             */
+            foreach (var currentPatient in currentDoctors)
+            {
+                if (!currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
+                {
+                    currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
+                }
+            }
+            hospitalEntities.Context.SaveChanges();
 
-        private void HotelDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _currentDoctor = (doctor)HotelDataGrid.CurrentItem;
+            ComboSpec.ItemsSource = currentDoctors.Select(x=>x.specialization).ToHashSet().ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Отображение окна редактирования
-            CrudService cs= new CrudService(_currentDoctor, this);
-            cs.Show();
-            this.Visibility = Visibility.Hidden;
+            var currentDoctors = hospitalEntities.Context.doctor.ToList();
+            // Обработка фильтрации докторов
 
+            if (TBoxSearch.Text != null && TBoxSearch.Text != "")
+                currentDoctors = currentDoctors.Where(p => p.second_name.ToLower().StartsWith(TBoxSearch.Text.ToLower())).ToList();
+
+            if (ComboSpec.Text != null && ComboSpec.Text != "")
+                currentDoctors = currentDoctors.Where(p => p.specialization.ToString().StartsWith(ComboSpec.Text)).ToList();
+
+            Patients.ItemsSource = currentDoctors;
+        }
+
+        // Открытие окон просмотра и редактирования
+        private void Item_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            SpecificDoctorPage spp = new SpecificDoctorPage((sender as ListViewItem).DataContext as doctor);
+            spp.Show();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            // Отображение окна создания
-            CrudService cs = new CrudService(new doctor(), this);
-            cs.Show();
-            this.Visibility = Visibility.Hidden;
+            // переход на страницу редактирования
+            EditDoctor ep = new EditDoctor((sender as Button).DataContext as doctor);
+            ep.Show();
+            Close();
         }
+        //private void Button_Click_2(object sender, RoutedEventArgs e)
+        //{
+        //    // Логика удаления врача вместе со связанными визитами и мероприятиями по лечению
+        //    if(MessageBox.Show($"Вы точно хотите удалить сотрудника {_currentDoctor.name}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question)==MessageBoxResult.Yes)
+        //    {
+        //        try
+        //        {
+        //            // Удаление связанных данных
+        //            var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.doctor_id == _currentDoctor.id).ToList();
+        //            hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
+        //            var healingEventsToRemove = hospitalEntities.Context.healingevent.Where(he => he.doctor_id == _currentDoctor.id).ToList();
+        //            hospitalEntities.Context.healingevent.RemoveRange(healingEventsToRemove);
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            // Логика удаления врача вместе со связанными визитами и мероприятиями по лечению
-            if(MessageBox.Show($"Вы точно хотите удалить сотрудника {_currentDoctor.name}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question)==MessageBoxResult.Yes)
-            {
-                try
-                {
-                    // Удаление связанных данных
-                    var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.doctor_id == _currentDoctor.id).ToList();
-                    hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
-                    var healingEventsToRemove = hospitalEntities.Context.healingevent.Where(he => he.doctor_id == _currentDoctor.id).ToList();
-                    hospitalEntities.Context.healingevent.RemoveRange(healingEventsToRemove);
+        //            // Удаление доктора
+        //            hospitalEntities.Context.doctor.Remove(_currentDoctor);
+        //            hospitalEntities.Context.SaveChanges();
+        //            MessageBox.Show("Удалено успешно");
+        //        }
+        //        catch(Exception ex)
+        //        {
+        //            MessageBox.Show(ex.ToString());
+        //        }
+        //    }
+        //    this.Visibility = Visibility.Hidden;
+        //    this.Visibility = Visibility.Visible;
+        //}
 
-                    // Удаление доктора
-                    hospitalEntities.Context.doctor.Remove(_currentDoctor);
-                    hospitalEntities.Context.SaveChanges();
-                    MessageBox.Show("Удалено успешно");
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-            }
-            this.Visibility = Visibility.Hidden;
-            this.Visibility = Visibility.Visible;
-        }
 
-        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            // Обновление таблицы врачей
-            if(Visibility == Visibility.Visible)
-            {
-            hospitalEntities.Context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-            HotelDataGrid.ItemsSource = hospitalEntities.Context.doctor.ToList();
-            }
-        }
+
+
+
+
+
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {

@@ -23,6 +23,14 @@ namespace WpfApp1
         public Priem()
         {
             InitializeComponent();
+            SpecCombo.ItemsSource = hospitalEntities.Context.doctor.Select(x => x.specialization).ToHashSet().ToList();
+            SpecCombo.Text = "терапевт";
+
+        }
+
+        private void SpecCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            doctorsAvailable.ItemsSource = hospitalEntities.Context.doctor.Where(x => x.specialization == (string)SpecCombo.SelectedItem).Select(x=>x.specialization).ToList();
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿<Window x:Class="WpfApp1.ScheduleWIndow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="ScheduleWIndow" Height="695" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"></ColumnDefinition>
+            <ColumnDefinition Width="361*"/>
+            <ColumnDefinition Width="400*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Width="250" Height="260" Grid.Column="1" Grid.Row="0" Margin="36,29,75,29">
+            <local:Clock Margin="10" x:Name="startChet" Width="200" Height="200"></local:Clock>
+            <DockPanel  HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
+                <Label>Часы</Label>
+                <xctk:IntegerUpDown Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label Margin="10 0">Минуты</Label>
+                <xctk:IntegerUpDown Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Width="250" Height="260" Grid.Column="1" Grid.Row="1" Margin="36,28,75,29">
+            <local:Clock Margin="10" x:Name="startNechet" Width="200" Height="200"></local:Clock>
+            <DockPanel  HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
+                <Label>Часы</Label>
+                <xctk:IntegerUpDown Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label Margin="10 0">Минуты</Label>
+                <xctk:IntegerUpDown Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Width="250" Height="260" Grid.Column="2" Grid.Row="1" Margin="75,28,75,29">
+            <local:Clock Margin="10" x:Name="endNechet" Width="200" Height="200"></local:Clock>
+            <DockPanel  HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
+                <Label>Часы</Label>
+                <xctk:IntegerUpDown Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label Margin="10 0">Минуты</Label>
+                <xctk:IntegerUpDown Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Width="250" Height="260" Grid.Column="2" Grid.Row="0" Margin="75,29,75,29">
+            <local:Clock Margin="10" x:Name="endChet" Width="200" Height="200"></local:Clock>
+            <DockPanel  HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30">
+                <Label>Часы</Label>
+                <xctk:IntegerUpDown Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label Margin="10 0">Минуты</Label>
+                <xctk:IntegerUpDown Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </DockPanel>
+        </StackPanel>
+        <Label Name="weekdayLabel" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Column="1" Margin="321,0,0,317" Grid.RowSpan="2">День недели</Label>
+        <Label HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="349,130,0,130" Grid.Column="1">---</Label>
+        <Label Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="349,130,0,130" Grid.Column="1">---</Label>
+        <CheckBox VerticalAlignment="Top" Grid.RowSpan="2" FontSize="18" Grid.ColumnSpan="2" Margin="0,306,0,0">Четность</CheckBox>
+        <Button Grid.Row="1" Grid.ColumnSpan="2" Width="100" Height="30" VerticalAlignment="Bottom" Margin="311,0,350,10" Grid.Column="1">Сохранить</Button>
+    </Grid>
+</Window>

@@ -23,6 +23,15 @@ namespace WpfApp1
         public Meropr()
         {
             InitializeComponent();
+            SpecCombo.ItemsSource = hospitalEntities.Context.doctor.Select(x => x.specialization).ToHashSet().ToList();
+            SpecCombo.Text = "медсестра";
+            TypeCombo.ItemsSource = hospitalEntities.Context.healingevent.Select(x => x.type).ToHashSet().ToList();
+            TypeCombo.Text = "лабораторное исследование";
+        }
+
+        private void SpecCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            doctorsAvailable.ItemsSource = hospitalEntities.Context.doctor.Where(x => x.specialization == (string)SpecCombo.SelectedItem).ToList();
         }
     }
 }

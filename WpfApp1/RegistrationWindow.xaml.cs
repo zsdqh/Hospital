@@ -227,7 +227,7 @@ namespace WpfApp1
         //Перенос в другие окна
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            DBService dbWindow = new DBService();
+            DoctorPage dbWindow = new DoctorPage();
             dbWindow.Show();
         }
 
