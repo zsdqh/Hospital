@@ -36,15 +36,6 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, custom_hash(d.password));
             }
-
-
-            //foreach(patient p in hospitalEntities.Context.patient.ToList())
-            //{
-            //    p.photo = p.photo.Replace("pack://siteoforigin:,,,/","");
-            //}
-            //hospitalEntities.Context.SaveChanges();
-            // Восстановление путей фото
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

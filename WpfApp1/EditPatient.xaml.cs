@@ -181,5 +181,31 @@ namespace WpfApp1
             this.DialogResult = false;
             this.Close();
         }
+
+        private void Image_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Логика удаления пациента вместе со связанными визитами и мероприятиями по лечению
+            if (MessageBox.Show($"Вы точно хотите УДАЛИТЬ пациента {CurrentPatient.name}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    // Удаление связанных данных
+                    var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.patient_id == CurrentPatient.id).ToList();
+                    hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
+                    var healingEventsToRemove = hospitalEntities.Context.healingevent.Where(he => he.patient_id == CurrentPatient.id).ToList();
+                    hospitalEntities.Context.healingevent.RemoveRange(healingEventsToRemove);
+
+                    // Удаление пациента
+                    hospitalEntities.Context.patient.Remove(CurrentPatient);
+                    hospitalEntities.Context.SaveChanges();
+                    MessageBox.Show("Удалено успешно");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            Close();
+        }
     }
 }

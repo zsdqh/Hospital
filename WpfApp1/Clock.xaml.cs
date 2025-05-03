@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace WpfApp1
@@ -147,6 +148,25 @@ namespace WpfApp1
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             RotateLines();
+        }
+
+        private void UserControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //Проверка свойства IsEnabled
+            if (this.IsEnabled)
+            {
+                this.hour_line.Stroke = Brushes.Gray;
+                this.minute_line.Stroke = Brushes.Black;
+                // Обновляем изображение часов на активное
+                this.ClockImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/clock.png"));
+            }
+            else
+            {
+                this.hour_line.Stroke = Brushes.LightGray;
+                this.minute_line.Stroke = Brushes.LightGray;
+                // Обновляем изображение часов на неактивное
+                this.ClockImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NotActiveClock.png"));
+            }
         }
     }
 }

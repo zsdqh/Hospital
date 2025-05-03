@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="CrudService" Height="503" Width="542">
+        Title="CrudService" Height="536" Width="579" ResizeMode="NoResize">
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -57,23 +57,34 @@
             </DockPanel>
             <DockPanel>
                 <TextBlock Text="Специализация" FontWeight="Bold" Margin="0,0,5,0"/>
-                <TextBlock Text="{Binding specialization}" Width="100" />
+                <TextBlock Text="{Binding specialization}"/>
             </DockPanel>
             <DockPanel>
                 <TextBlock Text="Пост:" FontWeight="Bold" Margin="0,0,5,0"/>
                 <TextBlock Text="{Binding post}" />
             </DockPanel>
         </StackPanel>
-        <DataGrid Grid.Column="0" Grid.Row="1" Margin="10">
+        <DataGrid Grid.Column="0" Grid.Row="1" Margin="10" Name="ScheduleGrid" AutoGenerateColumns="False" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" IsReadOnly="True" Height="auto" MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="35">
-
+                <DataGridTextColumn Width="35" Binding="{Binding Name}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Время работы">
-
+                <DataGridTextColumn Width="*" Header="Время работы" Binding="{Binding Text}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+
         <StackPanel Grid.Row="1" Grid.Column="1">
             <ListView Margin="10" Height="150"></ListView>
             <DatePicker Margin="10 0 10 0"></DatePicker>

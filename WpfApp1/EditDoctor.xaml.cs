@@ -20,10 +20,24 @@ namespace WpfApp1
     /// <summary>
     /// Логика взаимодействия для EditDoctor.xaml
     /// </summary>
-    public partial class EditDoctor : Window
+    public partial class EditDoctor : Window, IDoctorPage
     {
         // Редактируемый пациент
         public doctor CurrentDoctor { get; set; }
+        public void LoadRasp(doctor d)
+        {
+            List<DoctorsScheduleView> days = new List<DoctorsScheduleView>();
+            DoctorsSchedule sched;
+            JSONworker.Context.TryGetValue(CurrentDoctor.id, out sched);
+            // Добавление дни недели в таблицу
+            days.Add(new DoctorsScheduleView(sched.Monday, "Monday", d.id));
+            days.Add(new DoctorsScheduleView(sched.Tuesday, "Tuesday", d.id));
+            days.Add(new DoctorsScheduleView(sched.Wednesday, "Wednesday", d.id));
+            days.Add(new DoctorsScheduleView(sched.Thursday, "Thursday", d.id));
+            days.Add(new DoctorsScheduleView(sched.Friday, "Friday", d.id));
+            days.Add(new DoctorsScheduleView(sched.Saturday, "Saturday", d.id));
+            ScheduleGrid.ItemsSource = days;
+        }
 
         // Конструктор принимает объект пациента для редактирования
         public EditDoctor(doctor doctorToEdit)
@@ -41,6 +55,8 @@ namespace WpfApp1
                 Woman.IsChecked = true;
             }
             this.SpecBox.ItemsSource = hospitalEntities.Context.doctor.Select(x => x.specialization).ToHashSet().ToList();
+            LoadRasp(doctorToEdit);
+
         }
 
         // Обработчик для выбора фотографии
@@ -161,6 +177,36 @@ namespace WpfApp1
                 MessageBox.Show("Ошибка при сохранении данных: " + ex.Message);
             }
         }
+        private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            while (current != null)
+            {
+                if (current is T ancestor)
+                {
+                    return ancestor;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return null;
+        }
+        private void ScheduleGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+
+            // Проверяем, где было совершено нажатие
+            var hitTestResult = VisualTreeHelper.HitTest(dataGrid, e.GetPosition(dataGrid));
+            if (hitTestResult != null)
+            {
+                // Ищем родительский элемент типа DataGridRow
+                var row = FindAncestor<DataGridRow>(hitTestResult.VisualHit);
+                if (row != null && row.IsSelected)
+                {
+                    // Если строка найдена и выбрана, выполняем действие
+                    ScheduleWIndow sw = new ScheduleWIndow(CurrentDoctor.id, dataGrid.SelectedItem as DoctorsScheduleView, this);
+                    sw.Show();
+                }
+            }
+        }
         private void Man_Click(object sender, RoutedEventArgs e)
         {
             if (Woman.IsChecked == true)
@@ -181,6 +227,33 @@ namespace WpfApp1
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Логика удаления врача вместе со связанными визитами и мероприятиями по лечению
+            if (MessageBox.Show($"Вы точно хотите удалить сотрудника {CurrentDoctor.name}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    // Удаление связанных данных
+                    var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.doctor_id == CurrentDoctor.id).ToList();
+                    hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
+                    var healingEventsToRemove = hospitalEntities.Context.healingevent.Where(he => he.doctor_id == CurrentDoctor.id).ToList();
+                    hospitalEntities.Context.healingevent.RemoveRange(healingEventsToRemove);
+
+                    // Удаление доктора
+                    hospitalEntities.Context.doctor.Remove(CurrentDoctor);
+                    hospitalEntities.Context.SaveChanges();
+                    MessageBox.Show("Удалено успешно");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            this.Visibility = Visibility.Hidden;
+            this.Visibility = Visibility.Visible;
         }
     }
 }

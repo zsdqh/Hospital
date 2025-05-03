@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1"
              mc:Ignorable="d" 
-             d:DesignHeight="920" d:DesignWidth="920" Loaded="UserControl_Loaded">
+             d:DesignHeight="920" d:DesignWidth="920" Loaded="UserControl_Loaded" IsEnabledChanged="UserControl_IsEnabledChanged">
     <Grid Name="myGrid">
-        <Image Source="/Resources/clock.png"></Image>
+        <Image Name="ClockImage" Source="/Resources/clock.png"></Image>
     </Grid>
 </UserControl>

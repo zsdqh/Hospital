@@ -20,7 +20,9 @@ namespace WpfApp1
         public string type { get; set; }
         public System.DateTime date { get; set; }
         public string result { get; set; }
-    
+        public bool? visited { get; set; }
+
+
         public virtual doctor doctor { get; set; }
         public virtual patient patient { get; set; }
     }

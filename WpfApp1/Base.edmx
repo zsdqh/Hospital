@@ -36,6 +36,7 @@
           <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="result" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="recommendation" Type="text" Nullable="false" />
+          <Property Name="visited" Type="bit" />
         </EntityType>
         <EntityType Name="patient">
           <Key>
@@ -73,6 +74,7 @@
           <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="result" Type="text" Nullable="false" />
+          <Property Name="visited" Type="bit" />
         </EntityType>
         <Association Name="FK_healingevent_doctor">
           <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
@@ -183,6 +185,7 @@
           <Property Name="recommendation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="doctor" Relationship="Self.FK_healingevent_doctor" FromRole="healingevent" ToRole="doctor" />
           <NavigationProperty Name="patient" Relationship="Self.FK_healingevent_patient" FromRole="healingevent" ToRole="patient" />
+          <Property Name="visited" Type="Boolean" />
         </EntityType>
         <EntityType Name="patient">
           <Key>
@@ -224,6 +227,7 @@
           <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="doctor" Relationship="Self.FK_visit_doctor" FromRole="visit" ToRole="doctor" />
           <NavigationProperty Name="patient" Relationship="Self.FK_visit_patient" FromRole="visit" ToRole="patient" />
+          <Property Name="visited" Type="Boolean" />
         </EntityType>
         <Association Name="FK_healingevent_doctor">
           <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
@@ -324,6 +328,7 @@
           <EntitySetMapping Name="healingevent">
             <EntityTypeMapping TypeName="hospitalModel.healingevent">
               <MappingFragment StoreEntitySet="healingevent">
+                <ScalarProperty Name="visited" ColumnName="visited" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="date" ColumnName="date" />
@@ -365,6 +370,7 @@
           <EntitySetMapping Name="visit">
             <EntityTypeMapping TypeName="hospitalModel.visit">
               <MappingFragment StoreEntitySet="visit">
+                <ScalarProperty Name="visited" ColumnName="visited" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />

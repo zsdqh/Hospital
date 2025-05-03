@@ -22,7 +22,8 @@ namespace WpfApp1
         public string name { get; set; }
         public string result { get; set; }
         public string recommendation { get; set; }
-    
+        public bool? visited {  get; set; }
+
         public virtual doctor doctor { get; set; }
         public virtual patient patient { get; set; }
     }

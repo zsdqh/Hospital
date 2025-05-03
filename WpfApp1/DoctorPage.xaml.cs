@@ -71,40 +71,6 @@ namespace WpfApp1
             ep.Show();
             Close();
         }
-        //private void Button_Click_2(object sender, RoutedEventArgs e)
-        //{
-        //    // Логика удаления врача вместе со связанными визитами и мероприятиями по лечению
-        //    if(MessageBox.Show($"Вы точно хотите удалить сотрудника {_currentDoctor.name}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question)==MessageBoxResult.Yes)
-        //    {
-        //        try
-        //        {
-        //            // Удаление связанных данных
-        //            var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.doctor_id == _currentDoctor.id).ToList();
-        //            hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
-        //            var healingEventsToRemove = hospitalEntities.Context.healingevent.Where(he => he.doctor_id == _currentDoctor.id).ToList();
-        //            hospitalEntities.Context.healingevent.RemoveRange(healingEventsToRemove);
-
-        //            // Удаление доктора
-        //            hospitalEntities.Context.doctor.Remove(_currentDoctor);
-        //            hospitalEntities.Context.SaveChanges();
-        //            MessageBox.Show("Удалено успешно");
-        //        }
-        //        catch(Exception ex)
-        //        {
-        //            MessageBox.Show(ex.ToString());
-        //        }
-        //    }
-        //    this.Visibility = Visibility.Hidden;
-        //    this.Visibility = Visibility.Visible;
-        //}
-
-
-
-
-
-
-
-
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             // Обработка вывода отчета о проведенных приемах врачей
