@@ -56,6 +56,9 @@
         <Label HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="349,130,0,130" Grid.Column="1" Name="Chet">---</Label>
         <Label Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="349,130,0,130" Grid.Column="1" Name="NeChet">---</Label>
         <CheckBox Name="IsChet" VerticalAlignment="Top" Grid.RowSpan="2" FontSize="18" Grid.ColumnSpan="2" Margin="0,306,0,0" Click="CheckBox_Checked">Четность</CheckBox>
-        <Button Grid.Row="1" Grid.ColumnSpan="2" Width="100" Height="30" VerticalAlignment="Bottom" Margin="311,0,350,24" Grid.Column="1" Click="Button_Click">Сохранить</Button>
-    </Grid>
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Image  Height="30" Margin="10" VerticalAlignment="Bottom"  Source="/Resources/delete.png" MouseDown="Image_MouseDown"></Image>
+            <Button Grid.Row="1" Grid.ColumnSpan="3" Width="100" Height="30" VerticalAlignment="Bottom" Margin="10" Grid.Column="1" Click="Button_Click">Сохранить</Button>
+        </DockPanel>
+ </Grid>
 </Window>

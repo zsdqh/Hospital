@@ -43,5 +43,22 @@ namespace WpfApp1
             }
             return this.Hours.CompareTo(other.Hours);
         }
+        public static Time operator +(Time a, int minutes)
+        {
+            a.Minutes += minutes;
+            a.Hours += a.Minutes / 60;
+            a.Hours = a.Hours % 24;
+            a.Minutes = a.Minutes % 60;
+            return a;
+        }
+        public static int DateToInt(DateTime d)
+        {
+            return d.Year * 10000 + d.Month * 100 + d.Day;
+        }
+        public static int DateToInt(String d)
+        {
+            var splited = d.Split('.');
+            return DateToInt(new DateTime(Convert.ToInt32(splited[2]), Convert.ToInt32(splited[1]), Convert.ToInt32(splited[0])));
+        }
     }
 }

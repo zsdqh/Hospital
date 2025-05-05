@@ -27,6 +27,26 @@ namespace WpfApp1
         {
             return ((to_hash.GetHashCode()*11)<<4)/7;
         }
+        public void AddVisitsToJson()
+        {
+            foreach (visit v in hospitalEntities.Context.visit)
+            {
+                DoctorsSchedule ds;
+                JSONworker.Context.TryGetValue(v.doctor_id, out ds);
+                List<String> day;
+                if (ds.Tickets.TryGetValue(Time.DateToInt(v.date), out day))
+                {
+                    day.Add(v.date.ToString("HH:mm"));
+                }
+                else
+                {
+                    day = new List<String>();
+                    day.Add(v.date.ToString("HH:mm"));
+                    ds.Tickets.Add(Time.DateToInt((DateTime)v.date), day);
+                }
+            }
+            JSONworker.SaveChanges();
+        }
         public MainWindow()
         {
             // Добавление докторов в список доступных пользователей для входа
@@ -36,7 +56,9 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, custom_hash(d.password));
             }
+
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

@@ -20,6 +20,20 @@ namespace WpfApp1
     /// <summary>
     /// Логика взаимодействия для SpecificDoctorPage.xaml
     /// </summary>
+    public class VisitView
+    {
+        Time time_ { get; set; }
+        public string time { get { return time_.ToString(); } }
+        public string fio {  get; set; }
+        public visit parent {  get; set; }
+        public VisitView(visit v)
+        {
+            parent = v;
+            patient p = v.patient;
+            fio = p.second_name + " " + p.name + " " + p.father_name;
+            time_ = new Time(v.date.ToString("HH:mm"));
+        }
+    }
     public partial class SpecificDoctorPage : Window, IDoctorPage
     {
 
@@ -45,6 +59,7 @@ namespace WpfApp1
             DataContext = _currentDoctor;
             SexBlock.Text = _currentDoctor.sex==1 ? "Мужской" : "Женский";
             LoadRasp(d);
+            picker.SelectedDate = DateTime.Now;
 
         }
         // Вспомогательный метод для поиска предка указанного типа
@@ -78,6 +93,26 @@ namespace WpfApp1
                     sw.Show();
                 }
             }
+        }
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime chosen = (DateTime)picker.SelectedDate;
+            List<VisitView> views = new List<VisitView>();
+            foreach (visit v in hospitalEntities.Context.visit.Where(x => x.doctor_id == _currentDoctor.id && x.date.Year==chosen.Year && x.date.Month==chosen.Month && x.date.Day==chosen.Day))
+            {
+                views.Add(new VisitView(v));
+            }
+            talonsBox.ItemsSource = views;
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (talonsBox.SelectedItem == null)
+                return;
+            hospitalEntities.Context.visit.Remove((talonsBox.SelectedItem as VisitView).parent);
+            hospitalEntities.Context.SaveChanges();
+            DatePicker_SelectedDateChanged(sender, e as SelectionChangedEventArgs);
         }
     }
 }

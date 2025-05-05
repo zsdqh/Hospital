@@ -30,7 +30,8 @@ namespace WpfApp1
         public bool IsVisit {  get; set; } // true - визит    |   false - мероприятие
         public int doctor_id {  get; set; }
         public int patient_id {  get; set; }
-        public VisitItem(int id, bool isVisit, DateTime date,  string name, int doctor_id, int patient_id)
+        public String res {  get; set; }
+        public VisitItem(int id, bool isVisit, DateTime date,  string name, int doctor_id, int patient_id, String res)
         {
             this.Id = id;
             this.IsVisit = isVisit;
@@ -38,6 +39,7 @@ namespace WpfApp1
             this.Name = name;
             this.doctor_id = doctor_id;
             this.patient_id = patient_id;
+            this.res = res;
         }
     }
 
@@ -54,11 +56,14 @@ namespace WpfApp1
             _current = p;
             DataContext = p;
             SexBlock.Text = p.sex == 1 ? "мужской" : "женский";
+            GiveSpravka.Content = "Выдать\nсправку";
+            MakeOtchet.Content = "Сформировать\nотчет";
+            PrintTalon.Content = "Распечатать\nталон";
 
             List<VisitItem> visits = new List<VisitItem>();
             foreach(visit v in hospitalEntities.Context.visit.Where(x=>x.patient_id==_current.id))
             {
-                visits.Add(new VisitItem(v.id, true, v.date, "Визит: " + hospitalEntities.Context.doctor.Where(x => x.id == v.doctor_id).First().specialization, v.doctor_id, v.patient_id));
+                visits.Add(new VisitItem(v.id, true, v.date, "Визит: " + hospitalEntities.Context.doctor.Where(x => x.id == v.doctor_id).First().specialization, v.doctor_id, v.patient_id, v.result));
             }
             foreach(healingevent hv in hospitalEntities.Context.healingevent.Where(x=>x.patient_id==_current.id))
             {
@@ -69,7 +74,7 @@ namespace WpfApp1
                     hv.date = hv.date.AddHours((new Random()).Next(0, 24));
                     hv.date = hv.date.AddMinutes((new Random()).Next(0, 12) * 5);
                 }
-                visits.Add(new VisitItem(hv.id, false, hv.date,  type + ": " + hv.name, hv.doctor_id, hv.patient_id));
+                visits.Add(new VisitItem(hv.id, false, hv.date,  type + ": " + hv.name, hv.doctor_id, hv.patient_id, hv.result));
             }
             try
             {
@@ -253,6 +258,67 @@ namespace WpfApp1
                 resultParagraph.Range.Text = ToUpperFirst(current_event.recommendation);
             }
         application.Visible = true;
+        }
+
+        private void GiveSpravka_Click(object sender, RoutedEventArgs e)
+        {
+            if (allVisits.SelectedItem == null) return;
+            //Справка о посещении врача
+            //"справка.docx";
+            VisitItem view = allVisits.SelectedItem as VisitItem;
+            doctor d = hospitalEntities.Context.doctor.Where(x => x.id == view.doctor_id).First();
+            String res = view.res;
+            DoctorsSchedule ds;
+            JSONworker.Context.TryGetValue(d.id, out ds);
+            int time_spent = ds.TimeSpent;
+
+
+            Application wordApp = new Application();
+            string originalFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "справка.docx");
+            Document doc = wordApp.Documents.Open(originalFilePath);
+            ChangeTextInDoc(doc, "[ФИО]", _current.second_name+" "+_current.name+" "+_current.father_name);
+            ChangeTextInDoc(doc, "[дата]", view.Date.Split(' ')[0]);
+            ChangeTextInDoc(doc, "[специализация]", d.specialization);
+            ChangeTextInDoc(doc, "[начало]", view.Date.Split(' ')[1]);
+            ChangeTextInDoc(doc, "[конец]", (new Time(view.Date.Split(' ')[1])+time_spent).ToString());
+            ChangeTextInDoc(doc, "[результат]", res);
+            ChangeTextInDoc(doc, "[Фамилия И.О.]", d.second_name+" " + d.name[0] + "." + d.father_name[0]+".");
+            string newFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"справка_для_печати");
+            doc.SaveAs2(newFilePath);
+            wordApp.Visible = true;
+        }
+
+        private void PrintTalon_Click(object sender, RoutedEventArgs e)
+        {
+            if (allVisits.SelectedItem == null) return;
+            //талон на прием
+            //"талон.docx";
+            VisitItem view = allVisits.SelectedItem as VisitItem;
+            doctor d = hospitalEntities.Context.doctor.Where(x => x.id == view.doctor_id).First();
+            String res = view.res;
+            DoctorsSchedule ds;
+            JSONworker.Context.TryGetValue(d.id, out ds);
+            int time_spent = ds.TimeSpent;
+            String date = view.Date.Split(' ')[0];
+            String time = view.Date.Split(' ')[1];
+            List<String> tickets;
+            ds.Tickets.TryGetValue(Time.DateToInt(date), out tickets);
+
+            Application wordApp = new Application();
+            string originalFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "талон.docx");
+            Document doc = wordApp.Documents.Open(originalFilePath);
+            ChangeTextInDoc(doc, "[специализация]", d.specialization);
+            ChangeTextInDoc(doc, "[ФИО]", d.second_name + " " + d.name + " " + d.father_name + " ");
+            ChangeTextInDoc(doc, "[номер]", tickets.IndexOf(time).ToString()+1);
+            ChangeTextInDoc(doc, "[дата]", date);
+            ChangeTextInDoc(doc, "[каб]", );
+            ChangeTextInDoc(doc, "[время]", time);
+            ChangeTextInDoc(doc, "[карта]", _current.card_number.ToString());
+            ChangeTextInDoc(doc, "[ФИО пациент]", _current.second_name + " " + _current.name + " " + _current.father_name + " ");
+            ChangeTextInDoc(doc, "[адрес]", _current.adress);
+            string newFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"справка_для_печати");
+            doc.SaveAs2(newFilePath);
+            wordApp.Visible = true;
         }
     }
 }

@@ -86,9 +86,23 @@
         </DataGrid>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <ListView Margin="10" Height="150"></ListView>
-            <DatePicker Margin="10 0 10 0"></DatePicker>
-            <Button Margin="0 10" Width="150">Отменить прием</Button>
+            <Label HorizontalAlignment="Center" FontSize="16">Записи на прием</Label>
+            <ListBox x:Name="talonsBox" Margin="10" Height="150">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="time"/>
+                                    <Binding Path="fio"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <DatePicker Width="200" Name="picker" Margin="10 0 10 0" SelectedDateChanged="DatePicker_SelectedDateChanged"></DatePicker>
+            <Button Margin="0 10" Width="150" Click="Button_Click">Отменить прием</Button>
         </StackPanel>
     </Grid>
 </Window>

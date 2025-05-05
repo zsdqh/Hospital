@@ -114,8 +114,16 @@ namespace WpfApp1
         save:
             day[dayView.EngName] =  toSave;
             JSONworker.SaveChanges();
+            parent.LoadRasp(hospitalEntities.Context.doctor.Where(x => x.id == doctor_id).First());
             Close();
-            parent.LoadRasp(hospitalEntities.Context.doctor.Where(x=>x.id==doctor_id).First());
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            day[dayView.EngName] = null;
+            JSONworker.SaveChanges();
+            parent.LoadRasp(hospitalEntities.Context.doctor.Where(x => x.id == doctor_id).First());
+            Close();
         }
     }
 }

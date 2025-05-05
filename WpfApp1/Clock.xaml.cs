@@ -55,7 +55,7 @@ namespace WpfApp1
             hour_line = new Line
             {
                 StrokeThickness = 4,
-                Stroke = Brushes.Gray,
+                Stroke = Brushes.Red,
                 StrokeEndLineCap = PenLineCap.Triangle
             };
 
@@ -155,7 +155,7 @@ namespace WpfApp1
             //Проверка свойства IsEnabled
             if (this.IsEnabled)
             {
-                this.hour_line.Stroke = Brushes.Gray;
+                this.hour_line.Stroke = Brushes.Red;
                 this.minute_line.Stroke = Brushes.Black;
                 // Обновляем изображение часов на активное
                 this.ClockImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/clock.png"));
