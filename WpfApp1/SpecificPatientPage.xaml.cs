@@ -309,14 +309,14 @@ namespace WpfApp1
             Document doc = wordApp.Documents.Open(originalFilePath);
             ChangeTextInDoc(doc, "[специализация]", d.specialization);
             ChangeTextInDoc(doc, "[ФИО]", d.second_name + " " + d.name + " " + d.father_name + " ");
-            ChangeTextInDoc(doc, "[номер]", tickets.IndexOf(time).ToString()+1);
+            ChangeTextInDoc(doc, "[номер]", (tickets.IndexOf(time)+1).ToString());
             ChangeTextInDoc(doc, "[дата]", date);
-            ChangeTextInDoc(doc, "[каб]", );
+            ChangeTextInDoc(doc, "[каб]", hospitalEntities.Context.cab);
             ChangeTextInDoc(doc, "[время]", time);
             ChangeTextInDoc(doc, "[карта]", _current.card_number.ToString());
             ChangeTextInDoc(doc, "[ФИО пациент]", _current.second_name + " " + _current.name + " " + _current.father_name + " ");
             ChangeTextInDoc(doc, "[адрес]", _current.adress);
-            string newFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"справка_для_печати");
+            string newFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"талон_для_печати");
             doc.SaveAs2(newFilePath);
             wordApp.Visible = true;
         }

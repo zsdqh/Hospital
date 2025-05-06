@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище hospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cabinet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="owner" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="doctor">
           <Key>
             <PropertyRef Name="id" />
@@ -30,7 +38,7 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="patient_id" Type="int" Nullable="false" />
-          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="doctor_id" Type="int" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
@@ -125,6 +133,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище hospitalModelContainer">
+          <EntitySet Name="Cabinet" EntityType="Self.Cabinet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="healingevent" EntityType="Self.healingevent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="patient" EntityType="Self.patient" Schema="dbo" store:Type="Tables" />
@@ -177,7 +186,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="patient_id" Type="Int32" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="doctor_id" Type="Int32" Nullable="false" />
           <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
@@ -298,7 +307,16 @@
             <End Role="patient" EntitySet="patient" />
             <End Role="visit" EntitySet="visit" />
           </AssociationSet>
+          <EntitySet Name="Cabinet" EntityType="hospitalModel.Cabinet" />
         </EntityContainer>
+        <EntityType Name="Cabinet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -377,6 +395,15 @@
                 <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="result" ColumnName="result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cabinet">
+            <EntityTypeMapping TypeName="hospitalModel.Cabinet">
+              <MappingFragment StoreEntitySet="Cabinet">
+                <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

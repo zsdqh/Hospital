@@ -47,6 +47,42 @@ namespace WpfApp1
             }
             JSONworker.SaveChanges();
         }
+        public void AddEventsToJson()
+        {
+            foreach (healingevent hv in hospitalEntities.Context.healingevent)
+            {
+                DoctorsSchedule ds;
+                JSONworker.Context.TryGetValue(hv.doctor_id, out ds);
+                List<String> day;
+                if (ds.Tickets.TryGetValue(Time.DateToInt(hv.date), out day) && day!=null)
+                {
+                    if (day.Contains("00:00"))
+                    {
+                        day.RemoveAll(x => x == "00:00");
+                    }
+                    if (day.Contains(hv.date.ToString("HH:mm")))
+                    {
+                        continue;
+                    }
+                    day.Add(hv.date.ToString("HH:mm"));
+                }
+                else
+                {
+                    if (day==null)
+                    {
+                        day = new List<String>();
+                        day.Add(hv.date.ToString("HH:mm"));
+                        ds.Tickets.Add(Time.DateToInt((DateTime)hv.date), day);
+                    }
+                    if (day.Contains("00:00"))
+                    {
+                        day.RemoveAll(x=>x=="00:00");
+                    }
+
+                }
+            }
+            JSONworker.SaveChanges();
+        }
         public MainWindow()
         {
             // Добавление докторов в список доступных пользователей для входа
@@ -56,7 +92,6 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, custom_hash(d.password));
             }
-
         }
 
 
