@@ -12,19 +12,10 @@ namespace WpfApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class healingevent
+    public partial class Cabinet
     {
         public int id { get; set; }
-        public int patient_id { get; set; }
-        public System.DateTime date { get; set; }
-        public int doctor_id { get; set; }
-        public string type { get; set; }
         public string name { get; set; }
-        public string result { get; set; }
-        public string recommendation { get; set; }
-        public Nullable<bool> visited { get; set; }
-    
-        public virtual doctor doctor { get; set; }
-        public virtual patient patient { get; set; }
+        public string owner { get; set; }
     }
 }

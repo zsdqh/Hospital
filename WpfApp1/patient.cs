@@ -15,7 +15,7 @@ namespace WpfApp1
     public partial class patient
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public patient() 
+        public patient()
         {
             this.diagnosis = " ";
             this.history = " ";
@@ -36,8 +36,8 @@ namespace WpfApp1
         public string email { get; set; }
         public int card_number { get; set; }
         public System.DateTime card_date { get; set; }
-        public System.DateTime last_visit { get; set; }
-        public System.DateTime next_visit { get; set; }
+        public Nullable<System.DateTime> last_visit { get; set; }
+        public Nullable<System.DateTime> next_visit { get; set; }
         public int policy_number { get; set; }
         public System.DateTime policy_end { get; set; }
         public string diagnosis { get; set; }

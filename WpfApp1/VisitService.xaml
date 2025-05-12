@@ -17,11 +17,11 @@
             <local:Clock x:Name="clock" Width="200" Height="200"></local:Clock>
             <DockPanel Margin="0 50 0 0" HorizontalAlignment="Center" Height="30">
                 <Label>Часы</Label>
-                <xctk:IntegerUpDown x:Name="hourBox" Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <xctk:IntegerUpDown x:Name="hourBox" Value="{Binding Hours, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="hourBox_ValueChanged"/>
                 <Label Margin="10 0 0 0">Минуты</Label>      
-                <xctk:IntegerUpDown x:Name="minuteBox" Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <xctk:IntegerUpDown x:Name="minuteBox" Value="{Binding Minutes, ElementName=clock}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="hourBox_ValueChanged"/>
             </DockPanel>
-            <DatePicker Name="dateBox" Margin="3 10"></DatePicker>
+            <DatePicker Name="dateBox" Margin="3 10" SelectedDateChanged="dateBox_SelectedDateChanged"></DatePicker>
 
             <DockPanel Width="200" Height="50" Margin="0 50">
                 <Label BorderBrush="Black" Name="Priem" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="50" Background="Gray" MouseDown="Priem_MouseDown">Прием</Label>

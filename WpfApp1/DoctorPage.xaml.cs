@@ -128,5 +128,13 @@ namespace WpfApp1
             }
             application.Visible = true;
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            doctor new_doctor = new doctor();
+            EditDoctor ed = new EditDoctor(new_doctor);
+            ed.Show();
+            this.Close();
+        }
     }
 }

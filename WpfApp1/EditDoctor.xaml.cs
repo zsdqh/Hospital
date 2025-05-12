@@ -24,11 +24,27 @@ namespace WpfApp1
     {
         // Редактируемый пациент
         public doctor CurrentDoctor { get; set; }
+        private bool is_new = false;
+        private DoctorsSchedule sched;
         public void LoadRasp(doctor d)
         {
             List<DoctorsScheduleView> days = new List<DoctorsScheduleView>();
+            var patientInDb = hospitalEntities.Context.doctor.Find(CurrentDoctor.id);
+            if (patientInDb == null)
+            {
+                CurrentDoctor.id = hospitalEntities.Context.doctor.Select(x => x.id).OrderBy(x => x).ToList().Last() + 1;
+                is_new = true;
+            }
             DoctorsSchedule sched;
             JSONworker.Context.TryGetValue(CurrentDoctor.id, out sched);
+            if (sched == null)
+            {
+                is_new = true;
+                sched = new DoctorsSchedule(new Random());
+                JSONworker.Context.Add(CurrentDoctor.id, sched);
+                JSONworker.SaveChanges();
+            }
+            this.sched = sched;
             // Добавление дни недели в таблицу
             days.Add(new DoctorsScheduleView(sched.Monday, "Monday", d.id));
             days.Add(new DoctorsScheduleView(sched.Tuesday, "Tuesday", d.id));
@@ -141,36 +157,33 @@ namespace WpfApp1
                     MessageBox.Show("Телефон неуникален.");
                     return;
                 }
-
                
 
                 // Находим пациента в базе данных по его ID
                 var patientInDb = hospitalEntities.Context.doctor.Find(CurrentDoctor.id);
-                if (patientInDb != null)
+                if (patientInDb == null)
                 {
-                    // Обновляем свойства. Здесь можно использовать данные из контролов, т.к. они содержат актуальные отредактированные значения:
-                    patientInDb.name = NameBox.Text;
-                    patientInDb.second_name = SecondNameBox.Text;
-                    patientInDb.father_name = FatherNameBox.Text;
-                    patientInDb.passport = PassportBox.Text;
-                    patientInDb.birthday = birth.SelectedDate.Value;
-                    patientInDb.sex = (bool)Man.IsChecked ? 1 : 0;
-                    patientInDb.adress = AdressBox.Text;
-                    patientInDb.phone = PhoneBox.Text;
-                    patientInDb.post = PostBox.Text;
-                    patientInDb.specialization = SpecBox.Text;
-                    patientInDb.photo = CurrentDoctor.photo;
-                    patientInDb.login = LoginBox.Text;
-                    patientInDb.password = PasswordBox.Text;
+                    patientInDb = CurrentDoctor;
+                    hospitalEntities.Context.doctor.Add(patientInDb);
+                }
+                // Обновляем свойства. Здесь можно использовать данные из контролов, т.к. они содержат актуальные отредактированные значения:
+                patientInDb.name = NameBox.Text;
+                patientInDb.second_name = SecondNameBox.Text;
+                patientInDb.father_name = FatherNameBox.Text;
+                patientInDb.passport = PassportBox.Text;
+                patientInDb.birthday = birth.SelectedDate.Value;
+                patientInDb.sex = (bool)Man.IsChecked ? 1 : 0;
+                patientInDb.adress = AdressBox.Text;
+                patientInDb.phone = PhoneBox.Text;
+                patientInDb.post = PostBox.Text;
+                patientInDb.specialization = SpecBox.Text;
+                patientInDb.photo = CurrentDoctor.photo;
+                patientInDb.login = LoginBox.Text;
+                patientInDb.password = PasswordBox.Text;
 
-                    hospitalEntities.Context.SaveChanges();
-                    MessageBox.Show("Данные сохранены успешно!");
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Пациент не найден в базе данных.");
-                }
+                hospitalEntities.Context.SaveChanges();
+                MessageBox.Show("Данные сохранены успешно!");
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -202,7 +215,8 @@ namespace WpfApp1
                 if (row != null && row.IsSelected)
                 {
                     // Если строка найдена и выбрана, выполняем действие
-                    ScheduleWIndow sw = new ScheduleWIndow(CurrentDoctor.id, dataGrid.SelectedItem as DoctorsScheduleView, this);
+                    
+                    ScheduleWIndow sw = new ScheduleWIndow(CurrentDoctor.id, dataGrid.SelectedItem as DoctorsScheduleView, this, is_new?CurrentDoctor:null);
                     sw.Show();
                 }
             }
@@ -226,6 +240,11 @@ namespace WpfApp1
         // Обработчик кнопки "Отмена"
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            if(this.is_new)
+            {
+                JSONworker.Context.Remove(CurrentDoctor.id);
+                JSONworker.SaveChanges();
+            }
             this.Close();
         }
 
@@ -236,6 +255,8 @@ namespace WpfApp1
             {
                 try
                 {
+                    JSONworker.Context.Remove(CurrentDoctor.id);
+                    JSONworker.SaveChanges();
                     // Удаление связанных данных
                     var visitsToRemove = hospitalEntities.Context.visit.Where(v => v.doctor_id == CurrentDoctor.id).ToList();
                     hospitalEntities.Context.visit.RemoveRange(visitsToRemove);
@@ -252,8 +273,7 @@ namespace WpfApp1
                     MessageBox.Show(ex.ToString());
                 }
             }
-            this.Visibility = Visibility.Hidden;
-            this.Visibility = Visibility.Visible;
+            Close();
         }
     }
 }

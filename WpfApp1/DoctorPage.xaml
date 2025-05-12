@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="DoctorPage" Height="450" Width="800">
+        Title="DoctorPage" Height="450" Width="898">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="5" Padding="5 0" Click="Button_Click_2">+</Button>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите фамилию для поиска:" Width="175" TextAlignment="Right" Margin="5"></TextBlock>
                 <TextBox Width="210" Name="TBoxSearch"></TextBox>
@@ -21,7 +22,7 @@
                 <ComboBox Width="210" Name="ComboSpec"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Поиск" Width="65" Click="Button_Click"></Button>
+                <Button Margin="10 0 0 0" Content="Поиск" Width="65" Click="Button_Click"></Button>
             </StackPanel>
         </WrapPanel>
         <ListView Grid.Row="1" Name="Patients" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center">

@@ -20,15 +20,18 @@ namespace WpfApp1
     public partial class ScheduleWIndow : Window
     {
         private int doctor_id;
+        private doctor new_doctor=null;
         private DoctorsSchedule day;
         private DoctorsScheduleView dayView;
         private IDoctorPage parent;
-        public ScheduleWIndow(int doctor_id, DoctorsScheduleView dayView, IDoctorPage parent)
+        public ScheduleWIndow(int doctor_id, DoctorsScheduleView dayView, IDoctorPage parent, doctor new_doctor=null)
         {
             InitializeComponent();
+            this.new_doctor = new_doctor;
             this.dayView = dayView;
             this.parent = parent;
             JSONworker.Context.TryGetValue(dayView.Id, out day);
+            weekdayLabel.Content = dayView.Name;
 
             bool isActive = day[dayView.EngName]!=null && day[dayView.EngName][2] != null;
             ActivatePanel(SP1, isActive);
@@ -114,7 +117,10 @@ namespace WpfApp1
         save:
             day[dayView.EngName] =  toSave;
             JSONworker.SaveChanges();
-            parent.LoadRasp(hospitalEntities.Context.doctor.Where(x => x.id == doctor_id).First());
+            if (new_doctor!=null)
+                parent.LoadRasp(new_doctor);
+            else
+                parent.LoadRasp(hospitalEntities.Context.doctor.Where(x => x.id == doctor_id).First());
             Close();
         }
 

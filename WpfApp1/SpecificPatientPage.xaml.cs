@@ -17,13 +17,15 @@ using System.IO;
 using Path = System.IO.Path;
 using System.Collections;
 using Word = Microsoft.Office.Interop.Word;
+using System.ComponentModel;
 namespace WpfApp1
 {
     /// <summary>
     /// Логика взаимодействия для SpecificPatientPage.xaml
     /// </summary>
-    public class VisitItem // Класс для отображения визитов и мероприятий в ListBox
+    public class VisitItem: INotifyPropertyChanged // Класс для отображения визитов и мероприятий в ListBox
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public string Name { get; set; }
         public int Id { get; set; }
         public string Date {  get; set; }
@@ -31,7 +33,21 @@ namespace WpfApp1
         public int doctor_id {  get; set; }
         public int patient_id {  get; set; }
         public String res {  get; set; }
-        public VisitItem(int id, bool isVisit, DateTime date,  string name, int doctor_id, int patient_id, String res)
+        private string _photo;
+        public string photo
+        {
+            get { return _photo; }
+            set
+            {
+                _photo = value;
+                OnPropertyChanged(nameof(photo));
+            }
+        }
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public VisitItem(int id, bool isVisit, DateTime date,  string name, int doctor_id, int patient_id, String res, bool? visited)
         {
             this.Id = id;
             this.IsVisit = isVisit;
@@ -40,6 +56,7 @@ namespace WpfApp1
             this.doctor_id = doctor_id;
             this.patient_id = patient_id;
             this.res = res;
+            photo = date > DateTime.Now || visited==null ? "/Resources/вопросик.png" : ((bool)visited ? "/Resources/галочка.png" : "/Resources/крестик.png");
         }
     }
 
@@ -63,7 +80,7 @@ namespace WpfApp1
             List<VisitItem> visits = new List<VisitItem>();
             foreach(visit v in hospitalEntities.Context.visit.Where(x=>x.patient_id==_current.id))
             {
-                visits.Add(new VisitItem(v.id, true, v.date, "Визит: " + hospitalEntities.Context.doctor.Where(x => x.id == v.doctor_id).First().specialization, v.doctor_id, v.patient_id, v.result));
+                visits.Add(new VisitItem(v.id, true, v.date, "Визит: " + hospitalEntities.Context.doctor.Where(x => x.id == v.doctor_id).First().specialization, v.doctor_id, v.patient_id, v.result, v.visited));
             }
             foreach(healingevent hv in hospitalEntities.Context.healingevent.Where(x=>x.patient_id==_current.id))
             {
@@ -74,7 +91,7 @@ namespace WpfApp1
                     hv.date = hv.date.AddHours((new Random()).Next(0, 24));
                     hv.date = hv.date.AddMinutes((new Random()).Next(0, 12) * 5);
                 }
-                visits.Add(new VisitItem(hv.id, false, hv.date,  type + ": " + hv.name, hv.doctor_id, hv.patient_id, hv.result));
+                visits.Add(new VisitItem(hv.id, false, hv.date,  type + ": " + hv.name, hv.doctor_id, hv.patient_id, hv.result, hv.visited));
             }
             try
             {
@@ -154,7 +171,8 @@ namespace WpfApp1
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             // Формирование отчета по выбранному мероприятию
-            if (allVisits.SelectedItem == null) return;
+            if (allVisits.SelectedItem == null || (allVisits.SelectedItem as VisitItem).photo != "/Resources/галочка.png") return;
+
             VisitItem selected = allVisits.SelectedItem as VisitItem;
             patient current_patient = hospitalEntities.Context.patient.Where(x => x.id == selected.patient_id).First();
             doctor current_doctor = hospitalEntities.Context.doctor.Where(x => x.id == selected.doctor_id).First();
@@ -266,6 +284,11 @@ namespace WpfApp1
             //Справка о посещении врача
             //"справка.docx";
             VisitItem view = allVisits.SelectedItem as VisitItem;
+            if (Time.DateToInt(view.Date.Split(' ')[0]) > Time.DateToInt(DateTime.Now) || view.photo== "/Resources/крестик.png")
+            {
+                MessageBox.Show("Мероприятие не было посещено");
+                return;
+            }
             doctor d = hospitalEntities.Context.doctor.Where(x => x.id == view.doctor_id).First();
             String res = view.res;
             DoctorsSchedule ds;
@@ -294,6 +317,11 @@ namespace WpfApp1
             //талон на прием
             //"талон.docx";
             VisitItem view = allVisits.SelectedItem as VisitItem;
+            if (Time.DateToInt(view.Date.Split(' ')[0])<Time.DateToInt(DateTime.Now))
+            {
+                MessageBox.Show("Мероприятие уже прошло, талон недействителен!");
+                return;
+            }
             doctor d = hospitalEntities.Context.doctor.Where(x => x.id == view.doctor_id).First();
             String res = view.res;
             DoctorsSchedule ds;
@@ -311,7 +339,7 @@ namespace WpfApp1
             ChangeTextInDoc(doc, "[ФИО]", d.second_name + " " + d.name + " " + d.father_name + " ");
             ChangeTextInDoc(doc, "[номер]", (tickets.IndexOf(time)+1).ToString());
             ChangeTextInDoc(doc, "[дата]", date);
-            ChangeTextInDoc(doc, "[каб]", hospitalEntities.Context.cab);
+            ChangeTextInDoc(doc, "[каб]", d.specialization=="медсестра"?"Процедурный кабинет": (hospitalEntities.Context.Cabinet.Where(x=>x.owner==d.specialization).First().id+1).ToString());
             ChangeTextInDoc(doc, "[время]", time);
             ChangeTextInDoc(doc, "[карта]", _current.card_number.ToString());
             ChangeTextInDoc(doc, "[ФИО пациент]", _current.second_name + " " + _current.name + " " + _current.father_name + " ");
@@ -319,6 +347,26 @@ namespace WpfApp1
             string newFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"талон_для_печати");
             doc.SaveAs2(newFilePath);
             wordApp.Visible = true;
+        }
+
+
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            VisitItem selected = allVisits.SelectedItem as VisitItem;
+            if (Time.DateToInt(selected.Date.Split(' ')[0]) >Time.DateToInt(DateTime.Now))
+            {
+                return;
+            }
+            selected.photo = selected.photo == "/Resources/галочка.png" ? "/Resources/крестик.png" : "/Resources/галочка.png";
+            if (selected.IsVisit)
+            {
+                hospitalEntities.Context.visit.Where(x => x.id == selected.Id).First().visited = selected.photo == "/Resources/галочка.png";
+            }
+            else
+            {
+                hospitalEntities.Context.healingevent.Where(x => x.id == selected.Id).First().visited = selected.photo == "/Resources/галочка.png";
+            }
+            hospitalEntities.Context.SaveChanges();
         }
     }
 }

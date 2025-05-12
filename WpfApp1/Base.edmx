@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище hospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище hospitalEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cabinet">
           <Key>
             <PropertyRef Name="id" />
@@ -132,7 +132,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище hospitalModelContainer">
+        <EntityContainer Name="Хранилище hospitalEntitiesContainer">
           <EntitySet Name="Cabinet" EntityType="Self.Cabinet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="healingevent" EntityType="Self.healingevent" Schema="dbo" store:Type="Tables" />
@@ -155,10 +155,19 @@
             <End Role="visit" EntitySet="visit" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="hospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="hospitalEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cabinet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="doctor">
           <Key>
             <PropertyRef Name="id" />
@@ -192,9 +201,9 @@
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="result" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="recommendation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="visited" Type="Boolean" />
           <NavigationProperty Name="doctor" Relationship="Self.FK_healingevent_doctor" FromRole="healingevent" ToRole="doctor" />
           <NavigationProperty Name="patient" Relationship="Self.FK_healingevent_patient" FromRole="healingevent" ToRole="patient" />
-          <Property Name="visited" Type="Boolean" />
         </EntityType>
         <EntityType Name="patient">
           <Key>
@@ -234,9 +243,9 @@
           <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="visited" Type="Boolean" />
           <NavigationProperty Name="doctor" Relationship="Self.FK_visit_doctor" FromRole="visit" ToRole="doctor" />
           <NavigationProperty Name="patient" Relationship="Self.FK_visit_patient" FromRole="visit" ToRole="patient" />
-          <Property Name="visited" Type="Boolean" />
         </EntityType>
         <Association Name="FK_healingevent_doctor">
           <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
@@ -286,7 +295,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="hospitalEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="hospitalEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cabinet" EntityType="Self.Cabinet" />
           <EntitySet Name="doctor" EntityType="Self.doctor" />
           <EntitySet Name="healingevent" EntityType="Self.healingevent" />
           <EntitySet Name="patient" EntityType="Self.patient" />
@@ -307,24 +317,24 @@
             <End Role="patient" EntitySet="patient" />
             <End Role="visit" EntitySet="visit" />
           </AssociationSet>
-          <EntitySet Name="Cabinet" EntityType="hospitalModel.Cabinet" />
         </EntityContainer>
-        <EntityType Name="Cabinet">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище hospitalModelContainer" CdmEntityContainer="hospitalEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище hospitalEntitiesContainer" CdmEntityContainer="hospitalEntities1">
+          <EntitySetMapping Name="Cabinet">
+            <EntityTypeMapping TypeName="hospitalEntities.Cabinet">
+              <MappingFragment StoreEntitySet="Cabinet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="owner" ColumnName="owner" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="doctor">
-            <EntityTypeMapping TypeName="hospitalModel.doctor">
+            <EntityTypeMapping TypeName="hospitalEntities.doctor">
               <MappingFragment StoreEntitySet="doctor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="photo" ColumnName="photo" />
@@ -344,9 +354,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="healingevent">
-            <EntityTypeMapping TypeName="hospitalModel.healingevent">
+            <EntityTypeMapping TypeName="hospitalEntities.healingevent">
               <MappingFragment StoreEntitySet="healingevent">
-                <ScalarProperty Name="visited" ColumnName="visited" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="date" ColumnName="date" />
@@ -355,11 +364,12 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="result" ColumnName="result" />
                 <ScalarProperty Name="recommendation" ColumnName="recommendation" />
+                <ScalarProperty Name="visited" ColumnName="visited" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="patient">
-            <EntityTypeMapping TypeName="hospitalModel.patient">
+            <EntityTypeMapping TypeName="hospitalEntities.patient">
               <MappingFragment StoreEntitySet="patient">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="photo" ColumnName="photo" />
@@ -386,24 +396,15 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="visit">
-            <EntityTypeMapping TypeName="hospitalModel.visit">
+            <EntityTypeMapping TypeName="hospitalEntities.visit">
               <MappingFragment StoreEntitySet="visit">
-                <ScalarProperty Name="visited" ColumnName="visited" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
                 <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="result" ColumnName="result" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Cabinet">
-            <EntityTypeMapping TypeName="hospitalModel.Cabinet">
-              <MappingFragment StoreEntitySet="Cabinet">
-                <ScalarProperty Name="owner" ColumnName="owner" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="visited" ColumnName="visited" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

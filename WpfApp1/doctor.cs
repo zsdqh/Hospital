@@ -21,8 +21,7 @@ namespace WpfApp1
             this.healingevent = new HashSet<healingevent>();
             this.visit = new HashSet<visit>();
 
-
-            this.photo = "Фото";
+            this.photo = "/Resources/noPhoto.png";
             this.name = "Имя";
             this.second_name = "Фамилия";
             this.father_name = "Отчество";
@@ -36,8 +35,7 @@ namespace WpfApp1
             this.login = "username";
             this.password = "password";
         }
-
-
+    
         public int id { get; set; }
         public string photo { get; set; }
         public string name { get; set; }

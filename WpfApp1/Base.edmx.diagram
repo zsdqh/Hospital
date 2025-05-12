@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e95cf0b21ba84a9c99ccb11f8ef0ee0e" Name="Diagram1" ZoomLevel="93">
-        <EntityTypeShape EntityType="hospitalModel.doctor" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="hospitalModel.healingevent" Width="1.5" PointX="5.125" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="hospitalModel.patient" Width="1.5" PointX="9" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="hospitalModel.visit" Width="1.5" PointX="5.125" PointY="5.375" IsExpanded="true" />
-        <AssociationConnector Association="hospitalModel.FK_healingevent_doctor" ManuallyRouted="false" />
-        <AssociationConnector Association="hospitalModel.FK_visit_doctor" ManuallyRouted="false" />
-        <AssociationConnector Association="hospitalModel.FK_healingevent_patient" ManuallyRouted="false" />
-        <AssociationConnector Association="hospitalModel.FK_visit_patient" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="hospitalModel.Cabinet" Width="1.5" PointX="11.875" PointY="5.75" />
+      <Diagram DiagramId="d21852ef2e524d0ea33a7dca40f62399" Name="Diagram1">
+        <EntityTypeShape EntityType="hospitalEntities.Cabinet" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="hospitalEntities.doctor" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="hospitalEntities.healingevent" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="hospitalEntities.patient" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="hospitalEntities.visit" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="hospitalEntities.FK_healingevent_doctor" ManuallyRouted="false" />
+        <AssociationConnector Association="hospitalEntities.FK_visit_doctor" ManuallyRouted="false" />
+        <AssociationConnector Association="hospitalEntities.FK_healingevent_patient" ManuallyRouted="false" />
+        <AssociationConnector Association="hospitalEntities.FK_visit_patient" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

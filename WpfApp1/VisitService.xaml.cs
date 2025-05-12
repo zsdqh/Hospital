@@ -21,7 +21,8 @@ namespace WpfApp1
     /// </summary>
     public partial class VisitService : Window
     {
-        patient _current_patient;
+        public patient _current_patient { get; set; }
+        EventHandler page = null;
         private bool flag; // true - запись на прием    |    false - запись на мероприятие
 
         public VisitService(patient p)
@@ -29,6 +30,9 @@ namespace WpfApp1
             InitializeComponent();
             _current_patient = p;
             flag = true;
+            dateBox.SelectedDate = DateTime.Now;
+            hourBox.Value = DateTime.Now.Hour;
+            minuteBox.Value = DateTime.Now.Minute;
             FlagChanged();
         }
         private void FlagChanged()
@@ -38,7 +42,8 @@ namespace WpfApp1
             {
                 Priem.Background = minty;
                 Meropr.Background = Brushes.Gray;
-                MainFrame.Navigate(new Priem());
+                page = new Priem(this);
+                MainFrame.Navigate(page);
                 Priem.BorderThickness = new Thickness(3);
                 Meropr.BorderThickness = new Thickness(0);
             }
@@ -46,7 +51,8 @@ namespace WpfApp1
             {
                 Meropr.Background = minty;
                 Priem.Background = Brushes.Gray;
-                MainFrame.Navigate(new Meropr());
+                page = new Meropr(this);
+                MainFrame.Navigate(page);
                 Priem.BorderThickness = new Thickness(0);
                 Meropr.BorderThickness = new Thickness(3);
 
@@ -69,6 +75,19 @@ namespace WpfApp1
                 flag = false;
                 FlagChanged();
             }
+        }
+
+        private void hourBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (page == null) return;
+           page.SomethingChanged();
+        }
+
+        private void dateBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (page == null) return;
+
+            page.SomethingChanged();
         }
     }
 }

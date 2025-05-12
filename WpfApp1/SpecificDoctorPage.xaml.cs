@@ -22,7 +22,7 @@ namespace WpfApp1
     /// </summary>
     public class VisitView
     {
-        Time time_ { get; set; }
+        public Time time_ { get; set; }
         public string time { get { return time_.ToString(); } }
         public string fio {  get; set; }
         public visit parent {  get; set; }
@@ -108,10 +108,20 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (talonsBox.SelectedItem == null)
+            if (talonsBox.SelectedItem == null || picker.SelectedDate==null)
                 return;
+            DoctorsSchedule ds;
+            JSONworker.Context.TryGetValue(_currentDoctor.id, out ds);
+            List<String> day;
+            ds.Tickets.TryGetValue(Time.DateToInt((DateTime)picker.SelectedDate), out day);
+            day.Remove((talonsBox.SelectedItem as VisitView).time);
+            if (day.Count==0)
+            {
+                ds.Tickets.Remove(Time.DateToInt((DateTime)picker.SelectedDate));
+            }
             hospitalEntities.Context.visit.Remove((talonsBox.SelectedItem as VisitView).parent);
             hospitalEntities.Context.SaveChanges();
+            JSONworker.SaveChanges();
             DatePicker_SelectedDateChanged(sender, e as SelectionChangedEventArgs);
         }
     }

@@ -76,6 +76,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="0 5">
+                        <Image Width="20" Height="20" Source="{Binding photo}" MouseUp="Image_MouseUp"/>
                         <TextBlock Text="{Binding Name}" Margin="5 0"/>
                         <TextBlock Text="{Binding Date}"  Margin="5 0"/>
                         <TextBlock Text="{Binding Status}" Margin="5 0"/>

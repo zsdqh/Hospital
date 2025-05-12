@@ -10,9 +10,16 @@
 
     <Grid>
         <StackPanel>
-            <ListBox x:Name="doctorsAvailable" Height="200" Margin="10" Width="248"></ListBox>
+            <ListBox x:Name="doctorsAvailable" Height="200" Margin="10" Width="248">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Text}">
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <ComboBox Name="SpecCombo" Margin="10" Width="200" SelectionChanged="SpecCombo_SelectionChanged"/>
-            <Button Width="100" Height="45" FontSize="20">Записать</Button>
+            <Button Width="100" Height="45" FontSize="20" Click="Button_Click">Записать</Button>
         </StackPanel>
     </Grid>
 </Page>

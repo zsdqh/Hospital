@@ -12,9 +12,13 @@ namespace WpfApp1
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class hospitalEntities : DbContext
     {
+        public hospitalEntities()
+            : base("name=hospitalEntities1")
+        {
+        }
         private static hospitalEntities _context;
         public static hospitalEntities Context
         {
@@ -25,16 +29,12 @@ namespace WpfApp1
                 return _context;
             }
         }
-        public hospitalEntities()
-            : base("name=hospitalEntities")
-        {
-        }
-    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Cabinet> Cabinet { get; set; }
         public virtual DbSet<doctor> doctor { get; set; }
         public virtual DbSet<healingevent> healingevent { get; set; }
         public virtual DbSet<patient> patient { get; set; }
