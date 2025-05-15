@@ -19,11 +19,11 @@ namespace WpfApp1
     /// <summary>
     /// Логика взаимодействия для Meropr.xaml
     /// </summary>
-    public partial class Meropr : Page, EventHandler
+    public partial class MeroprPage : Page, IEventHandler
     {
         private VisitService parent;
 
-        public Meropr(VisitService parent)
+        public MeroprPage(VisitService parent)
         {
             InitializeComponent();
             this.parent = parent;

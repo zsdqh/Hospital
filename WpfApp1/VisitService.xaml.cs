@@ -22,7 +22,7 @@ namespace WpfApp1
     public partial class VisitService : Window
     {
         public patient _current_patient { get; set; }
-        EventHandler page = null;
+        IEventHandler page = null;
         private bool flag; // true - запись на прием    |    false - запись на мероприятие
 
         public VisitService(patient p)
@@ -42,7 +42,7 @@ namespace WpfApp1
             {
                 Priem.Background = minty;
                 Meropr.Background = Brushes.Gray;
-                page = new Priem(this);
+                page = new PriemPage(this);
                 MainFrame.Navigate(page);
                 Priem.BorderThickness = new Thickness(3);
                 Meropr.BorderThickness = new Thickness(0);
@@ -51,7 +51,7 @@ namespace WpfApp1
             {
                 Meropr.Background = minty;
                 Priem.Background = Brushes.Gray;
-                page = new Meropr(this);
+                page = new MeroprPage(this);
                 MainFrame.Navigate(page);
                 Priem.BorderThickness = new Thickness(0);
                 Meropr.BorderThickness = new Thickness(3);

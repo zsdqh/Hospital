@@ -18,8 +18,8 @@
         </Grid.RowDefinitions>
         <Button x:Name="LoInButton" Content="Войти" HorizontalAlignment="Left" Margin="24,209,0,0"  VerticalAlignment="Top" Height="50" Width="300"  Background="#FF424242" Foreground="White" FontSize="20" Click="Button_Click"/>
         <TextBox x:Name="LoginBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Логин" VerticalAlignment="Top" Width="280" Height="25" GotFocus="LoginBox_GotFocus" Margin="34,110,0,0"/>
-        <TextBox x:Name="PassBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Пароль" VerticalAlignment="Top" Width="280" Height="25" GotFocus="PassBox_GotFocus" Margin="34,155,0,0">
-        </TextBox>
+        <PasswordBox x:Name="PassBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280" Height="25"
+             GotFocus="PassBox_GotFocus" Margin="34,155,0,0"/>
         <Label Content="Вход" HorizontalAlignment="Left" Margin="133,32,0,0" VerticalAlignment="Top" FontSize="36" Height="58" Width="88"/>
     </Grid>
 </Window>

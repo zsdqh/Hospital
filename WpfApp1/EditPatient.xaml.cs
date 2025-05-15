@@ -178,7 +178,6 @@ namespace WpfApp1
         // Обработчик кнопки "Отмена"
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
             this.Close();
         }
 

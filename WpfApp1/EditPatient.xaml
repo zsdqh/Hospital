@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfApp1.EditPatient"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Редактировать пациента" Height="517" Width="620" ResizeMode="NoResize">
+        Title="Редактировать пациента" Height="626" Width="620" ResizeMode="NoResize">
     <Grid Margin="10">
         <!-- Определение двух колонок: слева – фото, справа – данные пациента -->
         <Grid.ColumnDefinitions>
@@ -147,7 +147,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="История:" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="0"/>
-                    <TextBox x:Name="HistoryBox" Text="{Binding history, Mode=TwoWay}" Grid.Column="1" />
+                    <TextBox x:Name="HistoryBox" Text="{Binding history, Mode=TwoWay}" Grid.Column="1"
+             AcceptsReturn="True" TextWrapping="Wrap" Height="75" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
                 <Grid Margin="0,5">
                     <Grid.ColumnDefinitions>
@@ -155,8 +156,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Диагноз:" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="0"/>
-                    <TextBox x:Name="DiagnosisBox" Text="{Binding diagnosis, Mode=TwoWay}" Grid.Column="1" />
+                    <TextBox x:Name="DiagnosisBox" Text="{Binding diagnosis, Mode=TwoWay}" Grid.Column="1"
+             AcceptsReturn="True" TextWrapping="Wrap" Height="75" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
+
+
             </StackPanel>
             
         </ScrollViewer>

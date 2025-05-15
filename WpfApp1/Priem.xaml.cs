@@ -43,10 +43,10 @@ namespace WpfApp1
             this.ind = ind;
         }
     }
-    public partial class Priem : Page, EventHandler
+    public partial class PriemPage : Page, IEventHandler
     {
         private VisitService parent;
-        public Priem(VisitService parent)
+        public PriemPage(VisitService parent)
         {
             InitializeComponent();
             SpecCombo.ItemsSource = hospitalEntities.Context.doctor.Select(x => x.specialization).ToHashSet().ToList();

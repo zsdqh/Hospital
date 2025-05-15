@@ -92,16 +92,17 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, custom_hash(d.password));
             }
+            this.PassBox.Password = "Пароль";
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Обработка авторизации пользователей
-            if (LoginBox.Text == null || LoginBox.Text == "" || PassBox.Text == null || PassBox.Text == "")
+            if (LoginBox.Text == null || LoginBox.Text == "" || PassBox.Password == null || PassBox.Password == "")
                 return;
             String login = LoginBox.Text;
-            String password = PassBox.Text;
+            String password = PassBox.Password;
             int right;
             if (doctors.TryGetValue(login, out right))
             {
@@ -136,7 +137,7 @@ namespace WpfApp1
 
         private void PassBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            PassBox.Text = "";
+            PassBox.Password = "";
             SolidColorBrush brush = new SolidColorBrush(Colors.Black);
             PassBox.Foreground = brush;
 
