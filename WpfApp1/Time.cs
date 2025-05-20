@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.TextFormatting;
 
 namespace WpfApp1
 {
@@ -45,11 +46,12 @@ namespace WpfApp1
         }
         public static Time operator +(Time a, int minutes)
         {
-            a.Minutes += minutes;
-            a.Hours += a.Minutes / 60;
-            a.Hours = a.Hours % 24;
-            a.Minutes = a.Minutes % 60;
-            return a;
+            Time temp = new Time(a.ToString());
+            temp.Minutes += minutes;
+            temp.Hours += temp.Minutes / 60;
+            temp.Hours = temp.Hours % 24;
+            temp.Minutes = temp.Minutes % 60;
+            return temp;
         }
         public static int DateToInt(DateTime d)
         {

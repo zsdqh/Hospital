@@ -62,17 +62,20 @@ namespace WpfApp1
 
     public partial class SpecificPatientPage : System.Windows.Window
     {
+        patient _current; // Выбранный пациент
         private string ToUpperFirst(string s)
         {
+            // Вспомогательная функция для увеличения первой буквы строки
             return Char.ToUpper(s[0]) + s.Remove(0, 1);
         }
-        patient _current;
         public SpecificPatientPage(patient p)
         {
+            // Конструктор окна страницы пациента
             InitializeComponent();
             _current = p;
             DataContext = p;
-            SexBlock.Text = p.sex == 1 ? "мужской" : "женский";
+            // Присвоение текста кнопкам и другим элементам управления
+            SexBlock.Text = (p.sex == 1) ? "мужской" : "женский";
             GiveSpravka.Content = "Выдать\nсправку";
             MakeOtchet.Content = "Сформировать\nотчет";
             PrintTalon.Content = "Распечатать\nталон";
@@ -80,37 +83,21 @@ namespace WpfApp1
             List<VisitItem> visits = new List<VisitItem>();
             foreach(visit v in hospitalEntities.Context.visit.Where(x=>x.patient_id==_current.id))
             {
+                // Добавление визитов в список посещений в нужном формате
                 visits.Add(new VisitItem(v.id, true, v.date, "Визит: " + hospitalEntities.Context.doctor.Where(x => x.id == v.doctor_id).First().specialization, v.doctor_id, v.patient_id, v.result, v.visited));
             }
             foreach(healingevent hv in hospitalEntities.Context.healingevent.Where(x=>x.patient_id==_current.id))
             {
+                // Добавление лечебных мероприятий в нужном формате
                 string type = hv.type;
                 type = ToUpperFirst(type);
-                if (hv.date.Hour == 0 && hv.date.Minute == 0) // Если время не было задано, то задать случайное
-                {
-                    hv.date = hv.date.AddHours((new Random()).Next(0, 24));
-                    hv.date = hv.date.AddMinutes((new Random()).Next(0, 12) * 5);
-                }
                 visits.Add(new VisitItem(hv.id, false, hv.date,  type + ": " + hv.name, hv.doctor_id, hv.patient_id, hv.result, hv.visited));
             }
-            try
-            {
-                    hospitalEntities.Context.SaveChanges();
-
-            }catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                foreach (var validationErrors in ex.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        MessageBox.Show($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
-                    }
-                }
-            }
-            allVisits.ItemsSource = visits;
+            allVisits.ItemsSource = visits; // Добавление всех мероприятий в ListBox
         }
         public void ChangeTextInDoc(Document doc, string oldText, string newText)
         {
+            // Функция замены текста в документе .docx 
             Range range = doc.Content;
             // Очищаем форматирование перед поиском (если требуется)
             range.Find.ClearFormatting();

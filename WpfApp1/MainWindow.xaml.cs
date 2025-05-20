@@ -92,7 +92,7 @@ namespace WpfApp1
             {
                 this.doctors.Add(d.login, custom_hash(d.password));
             }
-            this.PassBox.Password = "Пароль";
+            //this.PassBox.Password = "Пароль";
         }
 
 

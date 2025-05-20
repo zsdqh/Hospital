@@ -40,16 +40,17 @@ namespace WpfApp1
         }
 
         private void SpecCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            List<doctor> items = hospitalEntities.Context.doctor.Where(x => x.specialization == (string)SpecCombo.SelectedItem).ToList();
-            List<DoctorView> available = new List<DoctorView>();
-            foreach (doctor d in items)
+        { 
+            // Функция фильтрации врачей
+            List<doctor> items = hospitalEntities.Context.doctor.Where(x => x.specialization == (string)SpecCombo.SelectedItem).ToList(); //Все доктора нужной специализации
+            List<DoctorView> available = new List<DoctorView>(); // Список свободных для записи врачей
+            foreach(doctor d in items)
             {
                 DoctorsSchedule ds;
-                JSONworker.Context.TryGetValue(d.id, out ds);
+                JSONworker.Context.TryGetValue(d.id, out ds); //Получение расписания врачей
                 if (ds == null)
                 {
-                    continue;
+                    continue; // Если для врача не задано расписание, то пропускаем его
                 }
                 if (parent.dateBox.SelectedDate == null)
                 {
@@ -58,77 +59,79 @@ namespace WpfApp1
                 CultureInfo culture = new CultureInfo("en-US");
                 DateTime wanted = (DateTime)parent.dateBox.SelectedDate;
                 wanted = wanted.AddHours((double)parent.hourBox.Value);
-                wanted = wanted.AddMinutes((double)parent.minuteBox.Value);
+                wanted = wanted.AddMinutes((double)parent.minuteBox.Value); // Получение желаемой даты приёма
                 Time wanted_time = new Time(wanted.ToString("HH:mm"));
-                List<String> day = ds[wanted.ToString("dddd", culture)];
+                List<String> day = ds[wanted.ToString("dddd", culture)]; // Получение расписания за выбранный день
                 Time start, end;
-                if (day == null)
+                if (day == null) // Если врач в этот день не работает
                 {
                     continue;
                 }
-                if (day[2] == null)
+                if (day[2]==null) // Если расписание не зависит от четности
                 {
                     start = new Time(day[0]);
                     end = new Time(day[1]);
                 }
-                else
+                else // Если расписание зависит от четности
                 {
-                    if (wanted.Day % 2 == 0)
+                    if(wanted.Day%2==0) // Четная дата
                     {
                         start = new Time(day[0]);
                         end = new Time(day[1]);
                     }
-                    else
+                    else // Нечетная дата
                     {
                         start = new Time(day[2]);
                         end = new Time(day[3]);
                     }
                 }
-                bool flag = false;
-                if (start.CompareTo(wanted_time) <= 0 && end.CompareTo(wanted_time) >= 0)
+                bool flag = false; // Флаг того, свободен ли врач на заданное время
+                if(start.CompareTo(wanted_time)<=0 && end.CompareTo(wanted_time)>=0)
                 {
-                    int ind = -1;
+                    int ind = -1;  // номер талона
                     List<String> tickets;
-                    ds.Tickets.TryGetValue(Time.DateToInt(wanted), out tickets);
-                    if (tickets == null)
+                    ds.Tickets.TryGetValue(Time.DateToInt(wanted), out tickets); // Получение всех записей на выбранную дату
+                    if(tickets==null)
                     {
                         tickets = new List<String>();
                     }
-                    List<Time> time_tickets = new List<Time>();
+                    List<Time> time_tickets = new List<Time>();// Временное хранилище записей на прием
                     foreach (String s in tickets)
                         time_tickets.Add(new Time(s));
-                    time_tickets.Sort();
+                    time_tickets.Sort(); // Сортировка времени записей по возрастанию
                     tickets = new List<string>();
-                    foreach (Time t in time_tickets)
+                    foreach(Time t in time_tickets)
                         tickets.Add(t.ToString());
-                    tickets = tickets.ToHashSet().ToList();
-                    for (int i = 0; i < tickets.Count - 1; i++)
+                    tickets = tickets.ToHashSet().ToList(); // Удаление дублирующихся записей, если такие имеются
+                    for(int i=0;i<tickets.Count-1;i++)
                     {
-                        if ((new Time(tickets[i]) + ds.TimeSpent).CompareTo(wanted_time) <= 0 && (wanted_time + ds.TimeSpent).CompareTo(new Time(tickets[i + 1])) <= 0)
-                        {
-                            flag = true;
+                        if ((new Time(tickets[i])+ds.TimeSpent).CompareTo(wanted_time)<=0 && (wanted_time+ds.TimeSpent).CompareTo(new Time(tickets[i+1]))<=0)
+                        {// Можно ли записать пациента на промежуток между другими приемами
+                            flag = true; // Изменяем флаг на true, врач свободен
                             ind = i + 1;
                             break;
                         }
                     }
-                    if (tickets.Count == 0 || (wanted_time + ds.TimeSpent).CompareTo(new Time(tickets[0])) <= 0)
+                    if (tickets.Count == 0 || (wanted_time + ds.TimeSpent).CompareTo(new Time(tickets[0])) <= 0)  
                     {
+                        // Можно ли записать перед всеми приёмами
                         flag = true;
-                        ind = 0;
+                        ind = 0; // 0 значит первый талон
                     }
-                    else if (((new Time(tickets.Last())) + ds.TimeSpent).CompareTo(end) <= 0)
+                    else if (((new Time(tickets.Last())) + ds.TimeSpent).CompareTo(wanted_time) <= 0)
                     {
-                        ind = -2;
+                        // Можно ли записать после всех приемов
+                        flag = true;
+                        ind = -2; // -2 значит последний талон
                     }
 
-                    if (flag)
+                    if (flag) // Добавляем врача, если он свободен на выбранное время
                     {
                         available.Add(new DoctorView(d, start.ToString(), end.ToString(), ind));
                     }
                 }
-                Console.WriteLine();
             }
-            doctorsAvailable.ItemsSource = available;
+            doctorsAvailable.ItemsSource = available; // Обновляем список врачей
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

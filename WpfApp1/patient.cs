@@ -24,7 +24,7 @@ namespace WpfApp1
         }
     
         public int id { get; set; }
-        public string photo { get; set; }
+        public String photo { get; set; }
         public string name { get; set; }
         public string second_name { get; set; }
         public string father_name { get; set; }

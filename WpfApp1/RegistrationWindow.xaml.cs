@@ -27,44 +27,49 @@ namespace WpfApp1
             Man.IsChecked = true;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddPatient(object sender, RoutedEventArgs e)
         {
-            bool isValid = true;
+            // Функция добавления пациента
+            bool isValid = true; // Флаг правильности заполнения формы регистрации
 
-            void Validate(TextBox box, string pattern = null)
+            void Validate(TextBox box, string pattern = null) 
             {
+                // Вспомогательная функция проверки корректности значения
+                // если регулярное выражение не указано, то просто проверить на то, пуста ли строка
                 if (string.IsNullOrWhiteSpace(box.Text) || (pattern != null && !System.Text.RegularExpressions.Regex.IsMatch(box.Text, pattern)))
                 {
+                    // Если данные неправильные(не удовлетворяют регулярное выражение) или не заполнены, то поменять цвет текста на красный 
                     box.Foreground = Brushes.Red;
-                    isValid = false;
+                    isValid = false; // Форма заполнена неправильно
                 }
                 else
                 {
+                    // Изменить цвет на черный, если поле заполнено правильно
                     box.Foreground = Brushes.Black;
                 }
             }
             // Валидация данных пациента
-            Validate(NameBox);
+            Validate(NameBox); 
             Validate(SecondNameBox);
             Validate(FatherNameBox);
-            Validate(PassportBox, @"BY\d{4}[A-Z]\d{3}[A-Z]{2}\d");
+            Validate(PassportBox, @"BY\d{4}[A-Z]\d{3}[A-Z]{2}\d"); // Регулярные выражения для важных полей, которые должны соответствовать определенному формату
             Validate(PhoneBox, @"\+375\((25|44|33|29)\)\d{3}-\d{2}-\d{2}");
             Validate(EmailBox, @"^[a-zA-Z0-9._%+-]+@(gmail\.com|mail\.ru)$");
             Validate(AdressBox);
             Validate(LoginBox);
-            Validate(PasswordBox, @".{4,}");
+            Validate(PasswordBox, @".{4,}"); // Длина паролья минимум 4 символа
             birth.Foreground = Brushes.Black;
             DateTime? birthday = birth.SelectedDate;
-            if (birthday == null || birthday>=DateTime.Now)
+            if (birthday == null || birthday>=DateTime.Now) // Проверка даты рождения на то, не является ли она датой будущего
             {
                 birth.Foreground = Brushes.Red;
                 isValid = false;
             }
 
-            if (isValid)
+            if (isValid) // Если данные введены верно
             {
                 patient d = new patient();
-                d.id=hospitalEntities.Context.patient.ToList().Max(x => x.id) + 1;
+                d.id=hospitalEntities.Context.patient.ToList().Max(x => x.id) + 1; // Присвоение нового id на 1 больше, чем предыдущая запись
                 d.name = NameBox.Text;
                 d.second_name = SecondNameBox.Text;
                 d.father_name = FatherNameBox.Text;
@@ -72,7 +77,7 @@ namespace WpfApp1
                 // Обработка уникальности данных
                 if (hospitalEntities.Context.patient.Select(x=>x.passport).ToHashSet().Contains(d.passport))
                         {
-                    Validate(PassportBox, "ERRORVALUE");
+                    Validate(PassportBox, "NOT_UNIQUE");
                     goto error;
                 }
                 d.birthday = birth.SelectedDate.Value;
@@ -81,15 +86,22 @@ namespace WpfApp1
                 d.phone = PhoneBox.Text;
                 if (hospitalEntities.Context.patient.Select(x => x.phone).ToHashSet().Contains(d.phone))
                 {
-                    Validate(PhoneBox, "ERRORVALUE");
+                    Validate(PhoneBox, "NOT_UNIQUE");
                     goto error;
                 }
                 d.email = EmailBox.Text;
                 if (hospitalEntities.Context.patient.Select(x => x.email).ToHashSet().Contains(d.email))
                 {
-                    Validate(EmailBox, "ERRORVALUE");
+                    Validate(EmailBox, "NOT_UNIQUE");
                     goto error;
                 }
+                d.login = LoginBox.Text;
+                if (hospitalEntities.Context.patient.Select(x => x.login).ToHashSet().Contains(d.login))
+                {
+                    Validate(LoginBox, "NOT_UNIQUE");
+                    goto error;
+                }
+                // Автоматическое заполнение значений для ускорения работы регистратора
                 d.card_number = hospitalEntities.Context.patient.ToList().Max(x => x.card_number) + 1;
                 d.card_date = DateTime.Now;
                 d.last_visit = DateTime.Now;
@@ -97,9 +109,8 @@ namespace WpfApp1
                 d.card_date = d.card_date.AddYears(4);
                 d.policy_number = hospitalEntities.Context.patient.ToList().Max(x => x.policy_number) + 1;
                 d.policy_end = d.card_date;
-                d.login = LoginBox.Text;
                 d.password = PasswordBox.Text;
-                if(File.Exists(PhotoPathBox.Text))
+                if(File.Exists(PhotoPathBox.Text)) // Если указанное фото существует, то записать путь в БД
                 {
                     d.photo = PhotoPathBox.Text;
                 }
@@ -108,7 +119,7 @@ namespace WpfApp1
                     hospitalEntities.Context.patient.Add(d);
                     hospitalEntities.Context.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex) // Отлавливание ошибок, связанных с ограничениями БД
                 {
                     foreach (var entityValidationErrors in ex.EntityValidationErrors)
                     {
@@ -120,7 +131,7 @@ namespace WpfApp1
                 }
 
             }
-        error:
+        error: // Метка для досрочного завершения проверки данных при ошибке
             MessageBox.Show(isValid ? "Все данные введены корректно!" : "Некоторые поля заполнены неверно. Проверьте и исправьте их.");
         }
 
@@ -235,6 +246,12 @@ namespace WpfApp1
         {
             PatientPage patient = new PatientPage();
             patient.Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string helpPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "spravka.chm");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(helpPath) { UseShellExecute = true });
         }
     }
 }

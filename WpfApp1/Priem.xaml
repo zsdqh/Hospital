@@ -18,8 +18,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <ComboBox Name="SpecCombo" Margin="10" Width="200" SelectionChanged="SpecCombo_SelectionChanged"/>
-            <Button Width="100" Height="45" FontSize="20" Click="Button_Click">Записать</Button>
+            <ComboBox Name="SpecCombo" Margin="10" Width="200" SelectionChanged="FIlterDoctors"/>
+            <Button Width="100" Height="45" FontSize="20" Click="Zapisat">Записать</Button>
         </StackPanel>
     </Grid>
 </Page>

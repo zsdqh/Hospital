@@ -31,12 +31,16 @@ namespace WpfApp1
              */
             foreach (var currentPatient in currentPatients)
             {
-                if (! currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
+                if (currentPatient.photo == null)
+                {
+                    currentPatient.photo = "pack://application:,,,/Resources/noPhoto.png";
+                }
+                if (currentPatient.photo!=null && ! currentPatient.photo.StartsWith("pack://siteoforigin:,,,/"))
                 {
                     currentPatient.photo = "pack://siteoforigin:,,,/" + currentPatient.photo;
                 }
             }
-            hospitalEntities.Context.SaveChanges();
+            //hospitalEntities.Context.SaveChanges();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
